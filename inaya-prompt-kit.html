@@ -1,0 +1,398 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Inaya Prompt Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: single column workbench — sticky phase nav, one card per prompt, copy button always in reach */
+:root {
+  --bg: #f2f3f1;
+  --surface: #ffffff;
+  --ink: #1a1f22;
+  --muted: #5a6468;
+  --line: #d7dcda;
+  --accent: #1c5d77;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3eef2;
+  --code-bg: #f4f6f5;
+  --ok: #2f7a4b;
+  --f-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111517; --surface: #192023; --ink: #e5e9ea; --muted: #98a3a8; --line: #2a3337;
+    --accent: #6cb6d3; --accent-ink: #0c1a20; --accent-soft: #1b2e36; --code-bg: #141a1d; --ok: #6cc690;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111517; --surface: #192023; --ink: #e5e9ea; --muted: #98a3a8; --line: #2a3337;
+  --accent: #6cb6d3; --accent-ink: #0c1a20; --accent-soft: #1b2e36; --code-bg: #141a1d; --ok: #6cc690;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 64px; }
+header .eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(2.4rem, 8vw, 3.4rem); line-height: 1; margin: 6px 0 10px; letter-spacing: .01em; text-wrap: balance; }
+.lede { color: var(--muted); max-width: 62ch; margin: 0; }
+nav.phases { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); margin: 20px -16px 8px; padding: 10px 16px; border-bottom: 1px solid var(--line); overflow-x: auto; display: flex; gap: 8px; scrollbar-width: none; }
+nav.phases::-webkit-scrollbar { display: none; }
+nav.phases a { flex: none; font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+nav.phases a:hover, nav.phases a:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+section { padding-top: 28px; scroll-margin-top: 64px; }
+h2 { font-family: var(--f-display); font-weight: 600; font-size: 1.7rem; letter-spacing: .02em; margin: 0 0 4px; }
+.sec-note { color: var(--muted); margin: 0 0 14px; max-width: 62ch; }
+ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; counter-reset: s; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; }
+ol.steps li::before { content: counter(s); font-family: var(--f-display); font-weight: 700; font-size: 1.25rem; color: var(--accent); background: var(--accent-soft); border-radius: 8px; text-align: center; line-height: 34px; height: 34px; }
+ol.steps b { font-weight: 600; }
+.cards { display: grid; gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.code { font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-soft); padding: 2px 7px; border-radius: 6px; }
+.card h3 { font-size: 1rem; font-weight: 600; margin: 0; flex: 1 1 auto; min-width: 0; }
+.pill { font-family: var(--f-mono); font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
+.attach { font-size: 13px; color: var(--muted); margin: 0; }
+.attach strong { color: var(--ink); font-weight: 500; }
+.opt { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); flex-wrap: wrap; }
+.opt select { font: inherit; font-size: 13px; color: var(--ink); background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; max-width: 100%; }
+.chk input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+.opt select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.prompt-box { position: relative; min-width: 0; }
+pre.prompt { margin: 0; font-family: var(--f-mono); font-size: 12.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; max-height: 11.5em; overflow: hidden; user-select: text; -webkit-user-select: text; }
+.prompt-box:not(.open)::after { content: ""; position: absolute; left: 1px; right: 1px; bottom: 1px; height: 3em; border-radius: 0 0 8px 8px; background: linear-gradient(to bottom, transparent, var(--code-bg)); pointer-events: none; }
+.prompt-box.open pre.prompt { max-height: none; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; cursor: pointer; border-radius: 8px; }
+button.copy { background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent); font-weight: 600; font-size: 14px; padding: 9px 16px; min-width: 132px; }
+button.copy.done { background: var(--ok); border-color: var(--ok); }
+button.more { background: transparent; color: var(--ink); border: 1px solid var(--line); font-size: 14px; padding: 9px 14px; }
+button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tip { font-size: 13px; color: var(--muted); margin: 0; }
+.mod-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.mod-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.mod-table td { padding: 10px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.mod-table tr:first-child td { border-top: 0; }
+.mod-table td:first-child { font-family: var(--f-mono); font-size: 12px; color: var(--accent); white-space: nowrap; }
+.mod-table td:last-child { text-align: right; }
+.mini { font-size: 12px; padding: 4px 10px; background: transparent; color: var(--accent); border: 1px solid var(--line); white-space: nowrap; }
+.mini.done { color: var(--ok); border-color: var(--ok); }
+h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; margin: 18px 0 8px; }
+footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { button { transition: background-color .15s, border-color .15s, color .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Nano Banana Pro &amp; 2.1 · Character kit</div>
+    <h1>Inaya Prompt Kit</h1>
+    <p class="lede">Every prompt below is fully assembled. Tap Copy and paste it straight into Nano Banana. Where an outfit picker appears, change it and the prompt updates before you copy.</p>
+  </header>
+
+  <nav class="phases" aria-label="Sections">
+    <a href="#workflow">Workflow</a>
+    <a href="#master">1 · Master</a>
+    <a href="#refs">2 · References</a>
+    <a href="#scenes">3 · Scenes</a>
+    <a href="#video">4 · Video frames</a>
+    <a href="#fixes">Fixes</a>
+    <a href="#modules">Modules</a>
+  </nav>
+
+  <section id="workflow">
+    <h2>Workflow</h2>
+    <ol class="steps">
+      <li><div><b>Master portrait (Ref A).</b> Run the master prompt 6–10 times with no image attached. Keep the one face you'd use for years.</div></li>
+      <li><div><b>Reference set.</b> Attach Ref A and make the face turnaround (Ref B), full-body proportion sheet (Ref C) and expression sheet (Ref D).</div></li>
+      <li><div><b>Scenes.</b> Attach Ref A, B and C, in that order, to every scene. Ref A always stays Image 1.</div></li>
+      <li><div><b>Video frames.</b> Generate anchor frames for your lip-sync or image-to-video tool. Every ratio here is one the app offers: 16:9, 4:3, 1:1, 3:4 or 9:16.</div></li>
+    </ol>
+  </section>
+
+  <section id="master">
+    <h2>Phase 1 · Master portrait</h2>
+    <p class="sec-note">Plain backdrop, plain white tee, face fully visible. Re-roll rather than edit at this stage.</p>
+    <div class="cards" data-group="master"></div>
+  </section>
+
+  <section id="refs">
+    <h2>Phase 2 · Reference set</h2>
+    <p class="sec-note">Attach only Ref A to B, C and D. They don't describe her face; Ref A does. Ref C adds her body description, because Ref A only shows her chest up. Save the keepers as A, B, C, D, plus one full body per outfit you'll reuse.</p>
+    <div class="cards" data-group="refs"></div>
+  </section>
+
+  <section id="scenes">
+    <h2>Phase 3 · Scenes</h2>
+    <p class="sec-note">Attach Ref A, Ref B and Ref C. These prompts never describe her: the images carry her look, and text would compete with them. Add an outfit reference when the same outfit must match across shots.</p>
+    <div class="cards" data-group="scenes"></div>
+  </section>
+
+  <section id="video">
+    <h2>Phase 4 · Video anchor frames</h2>
+    <p class="sec-note">Frontal face, eyes on the lens, mouth relaxed, nothing covering the face, even light on both sides.</p>
+    <div class="cards" data-group="video"></div>
+  </section>
+
+  <section id="fixes">
+    <h2>Fix prompts</h2>
+    <p class="sec-note">Use on a generated image to pull it back on model. Keep Ref A attached as Image 1.</p>
+    <div class="cards" data-group="fixes"></div>
+  </section>
+
+  <section id="modules">
+    <h2>Modules</h2>
+    <p class="sec-note">The building blocks, for writing your own scenes. The DNA is only for the master portrait. Once images are attached, describe outfit, scene, shot and light only.</p>
+    <div id="modules-out"></div>
+  </section>
+
+  <footer>Change one module per generation. Label posts as AI-generated where a platform requires it.</footer>
+</div>
+
+<script>
+const M = {
+  REF: "Use the attached images as references for the same woman. Image 1 is her face — match it exactly. Image 2 shows her from several angles. Image 3 shows her body proportions. Keep her face, hair, body and jewelry exactly as in the references.",
+  REF_A: "Using the woman in the attached image as the exact same person, with her face, hair and jewelry kept exactly as in the reference,",
+  DNA: "Inaya, a 25-year-old Pakistani woman from Karachi with the effortless, polished, model-like look of a modern girl from DHA, and distinctly Pakistani features. She has a youthful, fresh face that reads as early twenties while clearly being an adult woman. Fair skin with warm-neutral undertones, a soft natural rosy flush and a smooth, natural texture. Soft oval face with gently full cheeks, high cheekbones and a softly tapered jaw. Almond-shaped light-brown eyes with dark lashes, framed by thick, bold, dark brows with a soft natural arch. Slim, straight nose with a high, well-defined bridge and a narrow, refined tip. Naturally full lips in a rosy-pink tone. A small beauty mark just above the left corner of her upper lip. Very long, waist-length natural soft-black hair with a cool tone and no highlights, slightly wavy with a realistic, lived-in texture: visible individual strands, a few natural flyaways and a soft natural sheen, never overly glossy or perfectly styled. Signature hairstyle: half-up, with the top section tied in a high half-ponytail and the long lengths falling loose down her back. Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture. Signature details: thin medium gold hoop earrings, a slim gold watch on her left wrist, a slim gold ring on her right index finger, and short almond nails in nude polish. Makeup is minimal and natural: fresh skin, a soft rosy flush on her cheeks, groomed bold brows and a rosy-pink lip tint.",
+  BODY: "Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture.",
+  PERSONA: "Her energy is confident, warm and playful: soft closed-lip smiles, a gentle head tilt and a knowing look at the camera. She is a true supercar enthusiast who looks like a fashion model, never like a mechanic.",
+  STYLE: "Photorealistic editorial photograph shot on a full-frame camera. Natural, unretouched skin texture with visible pores, true-to-life skin tone, realistic hair with individual strands and natural flyaways, accurate anatomy and natural hands with five fingers, subtle film grain, high dynamic range, sharp focus on her eyes.",
+  AVOID: "No text, logos, watermarks or car badges. Do not change anything about her appearance from the reference images. Her clothes stay clean and stylish: she is an enthusiast, not a mechanic, so no grease, overalls or tools in her hands.",
+  ANCHOR: "This frame will be animated as a talking avatar: her face is fully frontal and unobstructed, evenly lit on both sides, mouth relaxed and gently closed, eyes looking directly into the lens, hair behind her shoulders."
+};
+const W = {
+  W1: ["Signature oversized tee", "She wears an oversized black cotton crew-neck tee with a bold retro multicolor graphic print and no readable text, sleeves loosely rolled, front-tucked into high-waisted light-wash straight-leg jeans, with white sneakers."],
+  W2: ["Linen co-ord", "She wears a matching sage-green linen co-ord set: a relaxed short-sleeve button-up shirt, lightly tucked at the front, and wide-leg drawstring trousers, with tan leather slides."],
+  W3: ["Denim casual", "She wears a fitted black ribbed half-sleeve top tucked into high-waisted light-wash straight-leg jeans, with white sneakers."],
+  W4: ["Motorsport polo", "She wears a fitted cream knit polo with half sleeves tucked into high-waisted pleated olive twill trousers, with white leather sneakers."],
+  W5: ["Evening out", "She wears a sleek black ribbed-knit midi dress with elbow-length sleeves and a modest square neckline, with black block-heel sandals."],
+  W6: ["Linen trousers", "She wears a fitted white ribbed short-sleeve crew-neck tee tucked into high-waisted sand-beige wide-leg linen trousers, a slim tan leather belt and clean white sneakers."],
+  W7: ["Fusion", "She wears a short white chikankari kurti as a fitted top over light-wash flared jeans, with tan flat sandals."]
+};
+const CAR = {
+  CAR1: "a matte-grey mid-engine supercar with sharp angular lines and scissor doors, badges removed",
+  CAR2: "a deep racing-green front-engine grand tourer with a long bonnet and chrome details, badges removed",
+  CAR3: "a white track-focused coupe with a large carbon-fiber rear wing, badges removed",
+  CAR4: "a satin-black hypercar with orange brake calipers and a quilted leather and carbon-fiber interior, badges removed"
+};
+const C = {
+  C1: "Close-up portrait, head and shoulders, 85mm lens at f/1.8, eye level, eyes tack sharp, shallow depth of field.",
+  C2: "Medium shot from the waist up, 50mm lens at f/2, eye level.",
+  C3: "Full-body shot, head to toe with space above her head and below her feet, 35mm lens at f/2.8, camera at hip height.",
+  C4: "Wide environmental shot, 24mm lens, she fills about a third of the frame.",
+  C5: "Smartphone selfie at arm's length from a slightly high angle, front-camera look, casual and unpolished.",
+  C6: "Low hero angle, 24mm lens from knee height looking slightly up."
+};
+const L = {
+  L1: "Soft studio light: a large softbox 45 degrees to her left, gentle white fill, soft shadows, plain light-grey seamless backdrop, no lighting equipment visible in the frame.",
+  L2: "Garage light: cool linear LED ceiling strips, warm accent lights, glossy reflections on polished dark concrete.",
+  L3: "Golden hour: low warm sun behind her as a rim light, soft bounce light on her face.",
+  L4: "Night city light: streetlights and neon with magenta and teal accents, a soft key light on her face.",
+  L5: "Window daylight: large soft daylight from one side, natural and airy."
+};
+const ATT_ABC = "Ref A (Image 1), Ref B (Image 2), Ref C (Image 3)";
+const ar = r => r + " aspect ratio.";
+
+const P = [
+  { g: "master", code: "P1", title: "Master portrait — Ref A", ratio: "3:4", attach: "nothing, text only",
+    build: () => [
+      "Create a photorealistic studio portrait that will serve as the master reference image for a recurring character.",
+      M.DNA,
+      "She wears a fitted plain white ribbed crew-neck tee with no print. Chest-up framing, facing the camera straight on with shoulders square, looking directly into the lens with a relaxed, closed-mouth soft smile. Her hair is in her signature half-up high ponytail, with the long lengths falling behind her shoulders so her full face, ears, neck and jawline are clearly visible.",
+      "Minimal background: a seamless, evenly lit light-grey studio backdrop with nothing else in the frame — no props, no furniture, no lighting equipment, no patterns, no visible shadows on the wall.",
+      "Soft, even studio light from a large softbox slightly to her left with gentle fill, so every facial feature reads clearly with no harsh shadows.",
+      M.STYLE, ar("3:4 portrait")] ,
+    tip: "Keep the face that reads youthful, early twenties and clearly adult, clearly Pakistani, beauty mark on the left above the lip, ears and jawline visible." },
+  { g: "master", code: "P1-edit", title: "Small tweak to a near-miss", ratio: "same", attach: "the near-miss image",
+    build: () => ["Keep this image exactly the same, including her identity, pose, lighting and background. Only change: [her eyes slightly larger / softer makeup / brows a little thinner]."],
+    tip: "Replace the bracket with one change only." },
+
+  { g: "refs", code: "Ref B", title: "Turnaround sheet", ratio: "16:9", attach: "Ref A",
+    build: () => [
+      M.REF_A + " create a professional character reference sheet on a plain light-grey background. Show four head-and-shoulders views side by side in one row, evenly spaced: front, three-quarter left, left profile, three-quarter right. Same plain white tee, same soft even studio light, neutral relaxed expression in every view, hair behind her shoulders.",
+      M.STYLE, "No text or labels. " + ar("16:9")] },
+  { g: "refs", code: "Ref C", title: "Full-body proportion sheet", ratio: "16:9", attach: "Ref A",
+    build: () => [
+      M.REF_A + " create a full-body character turnaround sheet for checking body proportions. Show four full-body views of her side by side in one row, evenly spaced, at the same scale and height, with her feet on the same baseline: front view, three-quarter view, right side profile, and back view. In every view she stands upright in a relaxed neutral pose, arms hanging slightly away from her body so her silhouette, bust, waist and hips read clearly.",
+      "Her body: " + M.BODY,
+      "She wears the same outfit in every view: a fitted black short-sleeve ribbed crew-neck top and fitted high-waisted black straight-leg trousers, with white sneakers. The plain, fitted clothing shows her true body shape without adding volume.",
+      "Plain light-grey seamless studio backdrop, soft even light from both sides, no lighting equipment or props visible in the frame. Head to toe in every view, with a little space above her head and below her feet.",
+      M.STYLE, "No text, labels or grid lines. " + ar("16:9")],
+    tip: "Ref A only shows her chest up, so this is the one attached-image prompt that states her body. The side profile is where the bust reads most clearly; if it's off, use fix F5 rather than re-rolling the face." },
+  { g: "refs", code: "Ref D", title: "Expression sheet", ratio: "4:3", attach: "Ref A",
+    build: () => [
+      M.REF_A + " create a 3 by 2 grid of six head-and-shoulders portraits with identical framing, lighting and plain light-grey background. Expressions, left to right, top to bottom: calm neutral; warm smile showing teeth; genuine laugh; excited surprise with raised brows; thoughtful with one brow slightly raised; mid-sentence talking with lips naturally parted.",
+      "She wears the plain white tee. " + M.STYLE, "No text, no borders between panels. " + ar("4:3")] },
+  { g: "refs", code: "Outfit ref", title: "Full body in one outfit", ratio: "9:16", attach: "Ref A (Image 1), Ref C (Image 2)", outfit: "W1",
+    build: o => [
+      "Use the attached images as references for the same woman. Image 1 is her face — match it exactly. Image 2 shows her body proportions — match them exactly. Keep her face, hair, body and jewelry exactly as in the references.",
+      "Create a full-body studio photograph of her standing straight, facing the camera, arms relaxed at her sides, weight on both feet, with a soft confident smile.",
+      W[o][1],
+      "Head to toe in frame with a little space above her head and below her shoes, 35mm lens at f/4, camera at waist height. " + L.L1,
+      M.STYLE, ar("9:16")],
+    tip: "Make one per outfit you'll reuse, then attach it as an extra image when a series needs the same outfit." },
+
+  { g: "scenes", code: "S1", title: "Garage hero, full body", ratio: "3:4", attach: ATT_ABC, outfit: "W1",
+    build: o => [M.REF, W[o][1],
+      "She leans casually against the front fender of " + CAR.CAR1 + ", scissor doors raised, inside a minimalist private garage: polished dark concrete floor, matte black walls, two more cars under fitted covers softly blurred behind her. One hand rests lightly on the car, the other on her hip, and she looks straight into the lens with a confident half-smile.",
+      C.C3, L.L2, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S2", title: "Garage detail, the enthusiast moment", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
+    build: o => [M.REF, W[o][1],
+      "She crouches gracefully beside the rear wheel of " + CAR.CAR4 + " in a minimalist private garage, fingertips tracing a spoke of the forged wheel as she admires the orange brake caliper. She glances up over her shoulder at the camera with a delighted smile, as if sharing a favorite detail. Her outfit is spotless.",
+      C.C6, L.L2, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S3", title: "Cockpit", ratio: "3:4", attach: ATT_ABC, outfit: "W2",
+    build: o => [M.REF, W[o][1],
+      "She sits in the driver's seat of " + CAR.CAR4 + " with the door open, both hands resting lightly on the alcantara steering wheel, body turned toward the camera through the open door, smiling playfully into the lens. Carbon fiber, quilted leather and red contrast stitching visible around her.",
+      "Shot from outside the car at seat height, 35mm lens at f/2.", L.L2, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S4", title: "Influencer to camera, key fob", ratio: "9:16", attach: ATT_ABC, outfit: "W2",
+    build: o => [M.REF, W[o][1],
+      "She stands in front of the nose of " + CAR.CAR1 + " in a minimalist private garage, holding a car key fob up beside her face at shoulder height, eyebrows lifted and lips parted mid-sentence, eyes locked on the lens, like an influencer revealing something exciting to her followers.",
+      C.C2, L.L2, M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S5", title: "Selfie POV", ratio: "9:16", attach: ATT_ABC, outfit: "W6",
+    build: o => [M.REF, W[o][1],
+      "She takes a casual selfie in a clean underground parking garage, smiling with her head slightly tilted, while " + CAR.CAR3 + " fills the background over her shoulder.",
+      C.C5 + " Overhead fluorescent light with a soft glow on her face. Natural phone-photo look, not overly polished.",
+      M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S6", title: "Café lifestyle", ratio: "3:4", attach: ATT_ABC, outfit: "W3",
+    build: o => [M.REF, W[o][1],
+      "She sits at an outdoor café table on a tree-lined street with an iced latte and a supercar key fob on the marble table, mid-laugh as she glances at the camera. " + cap(CAR.CAR2) + " is parked at the curb behind her in soft focus.",
+      C.C2, L.L5, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S7", title: "Golden-hour coastal highway", ratio: "16:9", attach: ATT_ABC, outfit: "W1",
+    build: o => [M.REF, W[o][1],
+      "She stands beside " + CAR.CAR2 + " on an empty coastal highway along the Arabian Sea, waves breaking on the rocks below, sunglasses in one hand, a light breeze lifting her hair, looking at the camera with a calm, confident smile.",
+      C.C4, L.L3, M.STYLE, M.AVOID, ar("16:9")] },
+  { g: "scenes", code: "S8", title: "Karachi seaside at blue hour", ratio: "3:4", attach: ATT_ABC, outfit: "W5",
+    build: o => [M.REF, W[o][1],
+      "She stands beside " + CAR.CAR4 + " on a seaside promenade road in Karachi at blue hour, the Arabian Sea and glowing city lights behind her, one hand on the car's roofline, looking over her shoulder into the lens.",
+      C.C3, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S9", title: "Night car meet", ratio: "3:4", attach: ATT_ABC, outfit: "W5",
+    build: o => [M.REF, W[o][1],
+      "She walks toward the camera along a row of glossy supercars on a rooftop car park at night, a crowd of enthusiasts softly blurred behind her, the city skyline glowing. Mid-stride, relaxed, eyes on the lens.",
+      C.C6, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S10", title: "Track day paddock", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
+    build: o => [M.REF, W[o][1],
+      "She stands in a race-track pit lane with a white open-face helmet tucked under one arm, " + CAR.CAR3 + " parked behind her and pit garages in soft focus. Bright overcast daylight. She smiles at the camera like she just finished a hot lap.",
+      C.C2, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S11", title: "Showroom walk", ratio: "9:16", attach: ATT_ABC, outfit: "W3",
+    build: o => [M.REF, W[o][1],
+      "She walks past a line of supercars in a bright white showroom with floor-to-ceiling glass, mid-stride, turning her head to smile at the camera.",
+      C.C3, L.L5, M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S12", title: "DHA café drive-up", ratio: "3:4", attach: ATT_ABC, outfit: "W3",
+    build: o => [M.REF, W[o][1],
+      "She steps out of " + CAR.CAR1 + " with the scissor door raised, parked outside a modern café with a white facade and potted palms on a leafy DHA street in Karachi. One sneaker is on the pavement and she glances back at the camera with an easy smile. Warm late-afternoon light.",
+      C.C3, L.L3, M.STYLE, M.AVOID, ar("3:4")] },
+
+  { g: "video", code: "V1", title: "Talking head for Reels and Shorts", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
+    build: o => [M.REF, W[o][1], M.ANCHOR,
+      "Chest-up framing, centered, in a minimalist private garage with " + CAR.CAR1 + " softly out of focus behind her.",
+      "50mm lens at f/2, eye level. Soft frontal key light with gentle fill, cool LED strips glowing in the background.",
+      M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "video", code: "V2", title: "Podcast desk for YouTube", ratio: "16:9", attach: ATT_ABC, outfit: "W3",
+    build: o => [M.REF, W[o][1], M.ANCHOR,
+      "She sits at a sleek dark wood desk with a podcast microphone on a boom arm angled to the side below her chin, a laptop and a small scale-model supercar on the desk. Behind her, through a glass wall, " + CAR.CAR4 + " is lit dramatically in a garage studio.",
+      "Waist-up framing, slightly off-center to the left, 35mm lens at f/2.8.",
+      M.STYLE, M.AVOID, ar("16:9")] },
+  { g: "video", code: "V3", title: "In-car vlog", ratio: "9:16", attach: ATT_ABC, outfit: "W2",
+    build: o => [M.REF, W[o][1], M.ANCHOR,
+      "She sits in the driver's seat of parked " + CAR.CAR2 + ", filmed from a phone mounted on the dashboard. Soft daylight through the windshield lights her face evenly, with the leather interior around her.",
+      "Chest-up framing, wide phone-lens look.", M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "video", code: "V4", title: "Walk-and-talk start frame", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
+    build: o => [M.REF, W[o][1],
+      "She stands in a minimalist private garage between two supercars, about to walk toward the camera, body facing the lens, arms relaxed, soft smile, eyes on the camera. Her face is fully visible and evenly lit.",
+      "Medium-full framing from the knees up, 35mm lens at f/2.8.", L.L2, M.STYLE, M.AVOID, ar("9:16")],
+    tip: "For image-to-video tools that animate movement, not just lips." },
+
+  { g: "fixes", code: "F1", title: "Face drifted", ratio: "same", attach: "Ref A (Image 1) + the image to fix",
+    build: () => ["Keep this image exactly the same — pose, outfit, car, background and lighting. Only correct her face so it matches Image 1 exactly."] },
+  { g: "fixes", code: "F2", title: "Too young, too old or over-beautified", ratio: "same", attach: "Ref A (Image 1) + the image to fix",
+    build: () => ["Keep everything identical, but match her face and apparent age exactly to Image 1, with natural, unretouched skin texture and visible pores."] },
+  { g: "fixes", code: "F3", title: "A logo or badge appeared", ratio: "same", attach: "the image to fix",
+    build: () => ["Keep everything identical. Remove every logo, badge, emblem and piece of text from the car and the background."] },
+  { g: "fixes", code: "F4", title: "She looks like a mechanic", ratio: "same", attach: "the image to fix",
+    build: () => ["Keep her identity and the scene identical. Make her look like a fashion model who loves cars: clean, styled clothes, polished hair, no tools in her hands, no grease or dirt."] },
+  { g: "fixes", code: "F5", title: "Body proportions off on the sheet", ratio: "same", attach: "the proportion sheet to fix",
+    build: () => ["Keep this sheet exactly the same — face, hair, outfit, poses, background and lighting. Only adjust her body so it is a " + M.BODY.charAt(0).toLowerCase() + M.BODY.slice(1, -1) + ", consistently in all four views at the same scale."],
+    tip: "Change the wording to slightly fuller or slimmer if you want to nudge one feature." }
+];
+
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+function copyText(text, btn, pre, label, doneLabel) {
+  const ok = () => { btn.textContent = doneLabel; btn.classList.add("done"); setTimeout(() => { btn.textContent = label; btn.classList.remove("done"); }, 1600); };
+  const fallback = () => {
+    if (pre) { const r = document.createRange(); r.selectNodeContents(pre); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    btn.textContent = "Selected — copy it"; setTimeout(() => { btn.textContent = label; }, 2200);
+  };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, fallback); }
+    else { fallback(); }
+  } catch (e) { fallback(); }
+}
+
+let outfitMemo = {};
+try { outfitMemo = JSON.parse(localStorage.getItem("inaya-outfits") || "{}") || {}; } catch (e) { outfitMemo = {}; }
+
+P.forEach((p, i) => {
+  const host = document.querySelector('[data-group="' + p.g + '"]');
+  const el = document.createElement("article");
+  el.className = "card";
+  const id = "p" + i;
+  let outfit = p.outfit ? (W[outfitMemo[p.code]] ? outfitMemo[p.code] : p.outfit) : null;
+  const opts = p.outfit ? Object.keys(W).map(k => '<option value="' + k + '"' + (k === outfit ? " selected" : "") + ">" + k + " · " + W[k][0] + "</option>").join("") : "";
+  el.innerHTML =
+    '<div class="card-head"><span class="code">' + esc(p.code) + '</span><h3>' + esc(p.title) + '</h3>' + (p.ratio !== "same" ? '<span class="pill">' + p.ratio + '</span>' : "") + '</div>' +
+    '<p class="attach">Attach: <strong>' + esc(p.attach) + '</strong></p>' +
+    (p.outfit ? '<label class="opt" for="o-' + id + '">Outfit <select id="o-' + id + '">' + opts + '</select></label>' : "") +
+    '<div class="prompt-box"><pre class="prompt" id="t-' + id + '"></pre></div>' +
+    '<div class="actions"><button class="copy" type="button">Copy prompt</button><button class="more" type="button" aria-expanded="false">Show full</button></div>' +
+    (p.tip ? '<p class="tip">' + esc(p.tip) + '</p>' : "");
+  host.appendChild(el);
+  const pre = el.querySelector("pre");
+  const box = el.querySelector(".prompt-box");
+  const render = () => { pre.textContent = p.build(outfit).join("\n\n"); };
+  render();
+  const sel = el.querySelector("select");
+  if (sel) sel.addEventListener("change", () => {
+    outfit = sel.value; render();
+    outfitMemo[p.code] = outfit;
+    try { localStorage.setItem("inaya-outfits", JSON.stringify(outfitMemo)); } catch (e) {}
+  });
+  const copyBtn = el.querySelector("button.copy");
+  copyBtn.addEventListener("click", () => copyText(pre.textContent, copyBtn, pre, "Copy prompt", "Copied"));
+  const more = el.querySelector("button.more");
+  more.addEventListener("click", () => {
+    const open = box.classList.toggle("open");
+    more.textContent = open ? "Collapse" : "Show full";
+    more.setAttribute("aria-expanded", String(open));
+  });
+});
+
+// Modules reference
+const groups = [
+  ["Core blocks", [["DNA", M.DNA], ["BODY", M.BODY], ["PERSONA", M.PERSONA], ["REF", M.REF], ["STYLE", M.STYLE], ["AVOID", M.AVOID], ["ANCHOR", M.ANCHOR]]],
+  ["Wardrobe", Object.keys(W).map(k => [k, W[k][1]])],
+  ["Cars", Object.keys(CAR).map(k => [k, CAR[k]])],
+  ["Shots", Object.keys(C).map(k => [k, C[k]])],
+  ["Lighting", Object.keys(L).map(k => [k, L[k]])]
+];
+const mo = document.getElementById("modules-out");
+groups.forEach(([name, rows]) => {
+  const h = document.createElement("h4"); h.textContent = name; mo.appendChild(h);
+  const wrap = document.createElement("div"); wrap.className = "mod-wrap";
+  const t = document.createElement("table"); t.className = "mod-table";
+  rows.forEach(([k, v]) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>" + k + "</td><td>" + esc(v) + '</td><td><button class="mini" type="button">Copy</button></td>';
+    const b = tr.querySelector("button");
+    const cell = tr.children[1];
+    b.addEventListener("click", () => copyText(v, b, cell, "Copy", "Copied"));
+    t.appendChild(tr);
+  });
+  wrap.appendChild(t); mo.appendChild(wrap);
+});
+</script>
+
+</body></html>
