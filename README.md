@@ -2,41 +2,44 @@
 
 A prompt kit for building a consistent AI avatar for images and video with
 Nano Banana Pro (Gemini 3 Pro Image) and Nano Banana 2. The first character is
-**Inaya**.
+**Inaya**, a Karachi car enthusiast who reviews detailing, PPF and coatings.
 
 ## What's here
 
 | Path | What it is |
 | --- | --- |
-| `inaya-prompt-kit.html` | The kit. Open it in a browser, choose an outfit where there's a picker, tap **Copy prompt** and paste into Nano Banana. Works on a phone. |
-| `.claude/skills/nano-banana-pro-prompting/SKILL.md` | The prompting rules every prompt in the kit follows, with a review checklist. Claude Code loads it when you add or edit prompts. |
+| `inaya-prompt-kit.html` | The kit. Open it in a browser (it works on a phone), set the options, tap **Copy prompt** and paste into Nano Banana. |
+| `docs/PLAN.md` | The content plan: roadmap, variety maths, content pillars, PPF review series, capture guide for real places and products, QA, video, disclosure. |
+| `.claude/skills/nano-banana-pro-prompting/SKILL.md` | The prompting rules every prompt follows, with a review checklist. Claude Code loads it when prompts are added or edited. |
 
-## Workflow
+## Kit sections
 
-1. **Ref A, master portrait.** Text only, plain white tee. Re-roll 6–10 times and keep
-   one face. If an existing Ref A still has the old beauty mark, clean it with fix **F7**.
-2. **Reference set.** Attach Ref A and make Ref B (face turnaround), Ref C (full-body
-   proportion sheet) and Ref D (expressions). Every reference uses plain white clothes:
-   - Face sheets: fitted, opaque white tee on a light-grey backdrop.
-   - Body sheet: fitted white tee, white high-waisted leggings and bare feet on a
-     **mid-grey** backdrop so the white silhouette doesn't blend in. Generate at 4K where
-     the tool allows it.
-3. **Scenes.** Attach Ref A, B and C in that order. The prompts name each image's job and
-   tell the model to ignore the white reference clothes. If they leak through, use fix **F6**.
-4. **Video frames.** Frontal, evenly lit anchor frames for lip-sync and image-to-video tools.
+1. **Master portrait (Ref A).** Text only, plain white tee, clear skin. Fix F7 removes the
+   old beauty mark from an existing Ref A.
+2. **Reference set.** Every reference is shot in plain white clothes:
+   - B: face turnaround.
+   - C: full-body sheet in a white tee, white leggings and bare feet on mid grey.
+   - D: expressions.
+   - E (optional): a large front body view.
+   - H (optional): hands and jewelry.
+3. **Shot builder.**
+   - Choose a format (scene, selfie, product review, talking head), then place, car,
+     outfit, action, finish, framing, camera height, body angle, expression, light and
+     ratio.
+   - Switch on real place, product or car photos, or your outfit and hands references.
+   - It writes the prompt, lists the images to attach in order, and counts the
+     combinations.
+4. **Scenes.** S1–S12, ready-made hero scenes.
+5. **Reviews & real places.** R1–R5 PPF and detailing review shots, BG1 to swap in a real
+   background, and PR1 to swap in a real product.
+6. **Video anchor frames.** V1–V5, including a product-review talking head.
+7. **Fixes.** F1–F9, covering face drift, age, logos, mechanic look, body, leaked
+   reference clothes, the mole, wrong product labels and a pasted-on look.
 
-## Changes from the original kit
+## Variety at a glance
 
-- Removed the beauty mark from the character DNA. Her skin is now described as
-  clear, with no moles or beauty marks.
-- All reference images (B, C, D) use plain white clothing. Ref C switched from black
-  clothes on light grey to white clothes on mid grey.
-- Applied the Nano Banana Pro rules:
-  - Each prompt states its purpose and gives every attached image a role.
-  - Scene prompts tell the model to ignore the white reference clothing.
-  - Constraints are described positively, with one short "No …" sentence for hard limits.
-  - Reference sheets show a resolution on their pill.
-- New fixes: **F6** (white reference clothes leaked into a scene) and **F7** (remove the mole).
-- New **Rules** section in the kit.
+150 camera angles per set-up and about 32,000 visibly different set-ups across the four
+formats, before light, expression and ratio changes. Each real place photo adds 720
+review set-ups per product. The full maths is in `docs/PLAN.md`.
 
 Label posts as AI-generated where a platform requires it.

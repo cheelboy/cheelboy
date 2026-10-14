@@ -81,6 +81,17 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .mini { font-size: 12px; padding: 4px 10px; background: transparent; color: var(--accent); border: 1px solid var(--line); white-space: nowrap; }
 .mini.done { color: var(--ok); border-color: var(--ok); }
 h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; margin: 18px 0 8px; }
+.seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.seg button { font-size: 13px; padding: 7px 12px; border: 1px solid var(--line); background: var(--code-bg); color: var(--ink); border-radius: 999px; }
+.seg button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); gap: 10px; }
+.field { display: grid; gap: 4px; font-size: 12px; color: var(--muted); min-width: 0; }
+.field select, .field input { font: inherit; font-size: 13.5px; color: var(--ink); background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px; width: 100%; min-width: 0; }
+.field select:focus-visible, .field input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.toggles { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.toggles label { display: flex; align-items: center; gap: 7px; font-size: 13.5px; }
+.count { font-size: 13.5px; margin: 0; padding: 10px 12px; background: var(--accent-soft); border-radius: 8px; }
+.count b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
 footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) { button { transition: background-color .15s, border-color .15s, color .15s; } }
 </style>
@@ -97,8 +108,10 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
     <a href="#rules">Rules</a>
     <a href="#master">1 · Master</a>
     <a href="#refs">2 · References</a>
-    <a href="#scenes">3 · Scenes</a>
-    <a href="#video">4 · Video frames</a>
+    <a href="#builder">3 · Builder</a>
+    <a href="#scenes">4 · Scenes</a>
+    <a href="#reviews">5 · Reviews &amp; places</a>
+    <a href="#video">6 · Video frames</a>
     <a href="#fixes">Fixes</a>
     <a href="#modules">Modules</a>
   </nav>
@@ -108,7 +121,9 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
     <ol class="steps">
       <li><div><b>Master portrait (Ref A).</b> Run the master prompt 6–10 times with no image attached. Keep the one face you'd use for years: clear skin, no mole. If you already have a Ref A with the old beauty mark, clean it with fix F7 instead.</div></li>
       <li><div><b>Reference set.</b> Attach Ref A and make the face turnaround (Ref B), full-body proportion sheet (Ref C) and expression sheet (Ref D). All of them use plain white clothes, so you judge her face and body rather than an outfit.</div></li>
-      <li><div><b>Scenes.</b> Attach Ref A, B and C, in that order, to every scene. Ref A always stays Image 1. The prompts tell the model to ignore the white reference clothes; if they leak through anyway, use fix F6.</div></li>
+      <li><div><b>Shot builder.</b> Pick a format (scene, selfie, product review, talking head), then place, car, outfit, action and camera. It writes the prompt and numbers the images to attach. Ref A, B and C always come first, in that order.</div></li>
+      <li><div><b>Scenes.</b> Ready-made hero scenes. The prompts tell the model to ignore the white reference clothes; if they leak through anyway, use fix F6.</div></li>
+      <li><div><b>Reviews &amp; real places.</b> PPF, coating and tint review shots, plus prompts that put her into a photo of a real studio or put a real product in her hands.</div></li>
       <li><div><b>Video frames.</b> Generate anchor frames for your lip-sync or image-to-video tool. Every ratio here is one the app offers: 16:9, 4:3, 1:1, 3:4 or 9:16.</div></li>
     </ol>
   </section>
@@ -134,18 +149,39 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
 
   <section id="refs">
     <h2>Phase 2 · Reference set</h2>
-    <p class="sec-note">Attach only Ref A to B, C and D. Every reference is shot in plain white clothes: a white tee for the face sheets, and a fitted white tee, white leggings and bare feet on a mid-grey backdrop for the body sheet, so her proportions read without an outfit in the way. The prompts don't describe her face; Ref A does. Ref C adds her body description, because Ref A only shows her chest up. Save the keepers as A, B, C, D, plus one full body per outfit you'll reuse.</p>
+    <p class="sec-note">Attach only Ref A to B, C and D. Every reference is shot in plain white clothes: a white tee for the face sheets, and a fitted white tee, white leggings and bare feet on a mid-grey backdrop for the body sheet, so her proportions read without an outfit in the way. The prompts don't describe her face; Ref A does. Ref C adds her body description, because Ref A only shows her chest up. Save the keepers as A, B, C, D, plus one full body per outfit you'll reuse. Ref E (a large front view) and Ref H (hands and jewelry) are optional, but Ref H pays off in product shots where her hands are close to the lens.</p>
     <div class="cards" data-group="refs"></div>
   </section>
 
+  <section id="builder">
+    <h2>Phase 3 · Shot builder</h2>
+    <p class="sec-note">Pick a format, then the place, car, outfit, action and camera. The builder writes the full prompt, numbers the images to attach, and counts how many different shots the format can make. Turn on a place or product photo to put her in a real studio with a real product.</p>
+    <article class="card" id="bld">
+      <div class="seg" role="group" aria-label="Format" id="b-fmt"></div>
+      <div class="fields" id="b-fields"></div>
+      <div class="toggles" id="b-toggles"></div>
+      <div class="fields" id="b-text"></div>
+      <p class="attach">Attach, in this order: <strong id="b-attach"></strong></p>
+      <div class="prompt-box" id="b-box"><pre class="prompt" id="b-out"></pre></div>
+      <div class="actions"><button class="copy" type="button" id="b-copy">Copy prompt</button><button class="more" type="button" id="b-more" aria-expanded="false">Show full</button><button class="more" type="button" id="b-rand">Surprise me</button></div>
+      <p class="count" id="b-count"></p>
+    </article>
+  </section>
+
   <section id="scenes">
-    <h2>Phase 3 · Scenes</h2>
+    <h2>Phase 4 · Scenes</h2>
     <p class="sec-note">Attach Ref A, Ref B and Ref C. These prompts never describe her: the images carry her look, and text would compete with them. Each prompt names every image's job and dresses her in the chosen outfit, not the white reference clothes. Add an outfit reference when the same outfit must match across shots.</p>
     <div class="cards" data-group="scenes"></div>
   </section>
 
+  <section id="reviews">
+    <h2>Phase 5 · Reviews &amp; real places</h2>
+    <p class="sec-note">Product review shots for PPF, ceramic coating and tint, plus edits that put her into a photo of a real studio or swap a real product into her hands. She presents and judges the work; an installer does the hands-on part. Attach a clean product photo so the packaging and label come out right, and use a real place's photos only with the owner's permission.</p>
+    <div class="cards" data-group="reviews"></div>
+  </section>
+
   <section id="video">
-    <h2>Phase 4 · Video anchor frames</h2>
+    <h2>Phase 6 · Video anchor frames</h2>
     <p class="sec-note">Frontal face, eyes on the lens, mouth relaxed, nothing covering the face, even light on both sides.</p>
     <div class="cards" data-group="video"></div>
   </section>
@@ -175,7 +211,10 @@ const M = {
   BODY: "Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture.",
   PERSONA: "Her energy is confident, warm and playful: soft closed-lip smiles, a gentle head tilt and a knowing look at the camera. She is a true supercar enthusiast who looks like a fashion model, never like a mechanic.",
   STYLE: "Photorealistic editorial photograph shot on a full-frame camera. Natural, unretouched skin texture with visible pores, true-to-life skin tone, realistic hair with individual strands and natural flyaways, accurate anatomy and natural hands with five fingers, subtle film grain, high dynamic range, sharp focus on her eyes.",
-  AVOID: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model, with empty hands or only the props described. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, grease, overalls or tools.",
+  AVOID: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model, with empty hands or only the props described. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, readable number plates, grease, overalls or tools.",
+  AVOID_REVIEW: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model who presents and judges the work, while any installer does the hands-on part. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, readable number plates, grease or overalls.",
+  STYLE_PHONE: "Natural smartphone photo look: phone-camera dynamic range and slight sharpening, realistic skin with visible pores, realistic hair with flyaways, natural hands with five fingers, casual and not overly polished.",
+  HANDS: "a slim gold watch on her left wrist, a slim gold ring on her right index finger, and short almond nails in nude polish",
   ANCHOR: "This frame will be animated as a talking avatar: her face is fully frontal and unobstructed, evenly lit on both sides, mouth relaxed and gently closed, eyes looking directly into the lens, hair behind her shoulders."
 };
 const W = {
@@ -185,14 +224,24 @@ const W = {
   W4: ["Motorsport polo", "She wears a fitted cream knit polo with half sleeves tucked into high-waisted pleated olive twill trousers, with white leather sneakers."],
   W5: ["Evening out", "She wears a sleek black ribbed-knit midi dress with elbow-length sleeves and a modest square neckline, with black block-heel sandals."],
   W6: ["Linen trousers", "She wears a fitted white ribbed short-sleeve crew-neck tee tucked into high-waisted sand-beige wide-leg linen trousers, a slim tan leather belt and clean white sneakers."],
-  W7: ["Fusion", "She wears a short white chikankari kurti as a fitted top over light-wash flared jeans, with tan flat sandals."]
+  W7: ["Fusion", "She wears a short white chikankari kurti as a fitted top over light-wash flared jeans, with tan flat sandals."],
+  W8: ["Monochrome athleisure", "She wears a fitted black zip-up track jacket, zipped halfway over a matching black ribbed top, with high-waisted black flared leggings and chunky white sneakers."],
+  W9: ["Leather jacket", "She wears a cropped black leather biker jacket over a plain white tee, black straight-leg jeans and black leather ankle boots."],
+  W10: ["Eid kurta", "She wears a modern pastel-pink lawn kurta with delicate white embroidery, straight white trousers and a light chiffon dupatta draped over one shoulder, with gold flat sandals."],
+  W11: ["Smart blazer", "She wears a relaxed camel blazer over a fitted white crew-neck top, high-waisted cream wide-leg trousers and white leather sneakers."],
+  W12: ["Racing jacket", "She wears a vintage-style cream and dark-green racing jacket with contrast stripes and no readable text or logos, over a white tee and light-wash straight-leg jeans, with white sneakers."]
 };
 const CAR = {
   CAR1: "a matte-grey mid-engine supercar with sharp angular lines and scissor doors, badges removed",
   CAR2: "a deep racing-green front-engine grand tourer with a long bonnet and chrome details, badges removed",
   CAR3: "a white track-focused coupe with a large carbon-fiber rear wing, badges removed",
-  CAR4: "a satin-black hypercar with orange brake calipers and a quilted leather and carbon-fiber interior, badges removed"
+  CAR4: "a satin-black hypercar with orange brake calipers and a quilted leather and carbon-fiber interior, badges removed",
+  CAR5: "a pearl-white luxury SUV on large dark wheels, badges removed",
+  CAR6: "a bright red front-engine V12 coupe with a long bonnet, badges removed",
+  CAR7: "a dark-blue sports sedan with quad exhaust tips and bronze wheels, badges removed",
+  CAR8: "a white 1990s Japanese sports coupe with pop-up headlights, badges removed"
 };
+const CAR_LABEL = { CAR1: "Matte-grey supercar", CAR2: "Racing-green GT", CAR3: "White track coupe", CAR4: "Satin-black hypercar", CAR5: "Pearl-white SUV", CAR6: "Red V12 coupe", CAR7: "Dark-blue sports sedan", CAR8: "White 90s JDM coupe" };
 const C = {
   C1: "Close-up portrait, head and shoulders, 85mm lens at f/1.8, eye level, eyes tack sharp, shallow depth of field.",
   C2: "Medium shot from the waist up, 50mm lens at f/2, eye level.",
@@ -209,6 +258,26 @@ const L = {
   L5: "Window daylight: large soft daylight from one side, natural and airy."
 };
 const ATT_ABC = "Ref A (Image 1), Ref B (Image 2), Ref C (Image 3)";
+// Reference paragraph with any extra images (place, product, outfit, hands) numbered after A, B, C
+function refText(extra) {
+  return [M.REF].concat((extra || []).map(e => "Image " + e[0] + " " + e[1])).join(" ");
+}
+const X = {
+  place: n => [n, "is a photograph of a real location: use it as the setting."],
+  product: n => [n, "is the real product: reproduce it exactly."],
+  outfit: n => [n, "shows the outfit she wears: match every garment, colour and detail."],
+  hands: n => [n, "shows her hands, watch, ring and nails: match them exactly."],
+  car: n => [n, "is the real car: reproduce its body shape, colour, wheels and details exactly, with the number plate blank."]
+};
+function placeText(n, name, withCar) {
+  return "The setting is the real place in Image " + n + (name ? ", " + name : "") + ". Keep that place exactly as photographed, including its architecture, layout, fixtures, colours and any signage, and put her into it naturally: match the photo's perspective, camera height, lens look, light direction and colour temperature, with realistic contact shadows and reflections so she" + (withCar ? " and the car" : "") + " clearly stand" + (withCar ? "" : "s") + " in the space rather than look pasted in.";
+}
+function productText(n, name) {
+  return "The product is " + (name ? name + ", " : "the one ") + "shown in Image " + n + ": reproduce its packaging, colours, label layout and printed text exactly as in Image " + n + ", at a realistic size.";
+}
+function avoidProduct(n) {
+  return "Every car is clean and unbadged, and her clothes are clean and styled: she presents and judges the work, while any installer does the hands-on part. Her appearance stays exactly as in the reference images. The only branding in the frame is the product's own packaging from Image " + n + "; no other text, logos, watermarks, car badges or readable number plates.";
+}
 const ar = r => r + " aspect ratio.";
 
 const P = [
@@ -242,6 +311,21 @@ const P = [
     build: () => [
       M.REF_A + " create a 3 by 2 grid of six head-and-shoulders portraits with identical framing, lighting and plain light-grey background. Expressions, left to right, top to bottom: calm neutral; warm smile showing teeth; genuine laugh; excited surprise with raised brows; thoughtful with one brow slightly raised; mid-sentence talking with lips naturally parted.",
       M.WHITE_TOP + " Hair in her half-up style with the lengths behind her shoulders.", M.STYLE, "No text, no borders between panels. " + ar("4:3")] },
+  { g: "refs", code: "Ref E", title: "Front full body, white (optional)", ratio: "9:16", res: "4K", attach: "Ref A (Image 1), Ref C (Image 2)",
+    build: () => [
+      "Using the woman in the attached images as the exact same person — Image 1 is her face, Image 2 shows her body proportions — create a single full-body front-view reference photograph of her for a recurring character. She stands upright facing the camera, weight on both feet, arms hanging slightly away from her body, with a calm, soft expression.",
+      "Her body: " + M.BODY,
+      M.WHITE_FULL,
+      "Seamless mid-grey studio backdrop and floor, so the white clothing stands out with a crisp silhouette. Soft, even light from both sides. Head to toe in frame with a little space above her head and below her feet, 50mm lens at f/5.6, camera at waist height so her proportions aren't distorted.",
+      M.STYLE, "No text, labels or grid lines. " + ar("9:16")],
+    tip: "A large, single view for judging her proportions. Keep Ref C as Image 3 in scenes; use this one to check the body and as a fallback if Ref C's small figures drift." },
+  { g: "refs", code: "Ref H", title: "Hands & jewelry (optional)", ratio: "4:3", res: "2K+", attach: "Ref A",
+    build: () => [
+      M.REF_A + " create a close-up reference photograph of her hands for a recurring character. Both hands are held loosely in front of her waist, the left hand holding a plain white card and the right hand relaxed and slightly open, so every finger is clearly visible.",
+      "Show " + M.HANDS + ". The cuffs of her plain white tee are just visible at the edges of the frame.",
+      "Plain light-grey seamless background, soft even studio light, 85mm lens at f/4, everything from fingertips to wrists in sharp focus.",
+      M.STYLE, "No text or logos. " + ar("4:3")],
+    tip: "Attach as an extra image in product shots so her hands, watch and ring stay consistent close to the lens." },
   { g: "refs", code: "Outfit ref", title: "Full body in one outfit", ratio: "9:16", attach: "Ref A (Image 1), Ref C (Image 2)", outfit: "W1",
     build: o => [
       "Use the attached images as references for the same woman, Inaya. Image 1 is her face: match it exactly. Image 2 shows her body proportions and height: match them exactly, but not her clothes. The plain white clothes in Image 2 are for reference only. Keep her face, hair, body and jewelry exactly as in the references.",
@@ -301,6 +385,56 @@ const P = [
       "She steps out of " + CAR.CAR1 + " with the scissor door raised, parked outside a modern café with a white facade and potted palms on a leafy DHA street in Karachi. One sneaker is on the pavement and she glances back at the camera with an easy smile. Warm late-afternoon light.",
       C.C3, L.L3, M.STYLE, M.AVOID, ar("3:4")] },
 
+  { g: "reviews", code: "R1", title: "Product hero, detailing studio", ratio: "3:4", attach: ATT_ABC + ", product photo (Image 4)", outfit: "W11",
+    build: o => [
+      "Create a photorealistic product review photograph for her car-care content. The product must be clear, accurate and easy to read.",
+      refText([X.product(4)]), W[o][1],
+      "She stands beside the bonnet of " + CAR.CAR6 + " in a high-end car detailing studio: spotless light-grey epoxy floor, white walls, a hexagonal LED light grid on the ceiling, and shelves of detailing products softly blurred behind her. She holds the product up at shoulder height with the label facing the lens and smiles at the camera, like she's recommending it to a friend.",
+      productText(4, "[product name]"),
+      C.C2, "Bright, even white light from the hexagonal LED ceiling grid, reflecting as a crisp honeycomb pattern in the paint.",
+      M.STYLE, avoidProduct(4), ar("3:4")],
+    tip: "Replace [product name] or delete it. A clean, front-on product photo on a plain background gives the most accurate label." },
+  { g: "reviews", code: "R2", title: "Gloss vs matte, split bonnet", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
+    build: o => [
+      "Create a photorealistic product review photograph for her car-care content, comparing two paint protection film finishes side by side.",
+      M.REF, W[o][1],
+      "She stands at the front of " + CAR.CAR6 + " in a high-end car detailing studio. The bonnet is split down the middle along a crisp, perfectly straight line: the left half wears gloss clear paint protection film with a deep, wet-looking shine, and the right half wears matte clear film that turns the same red paint into a smooth satin finish. She gestures toward the line with an open hand and looks at the camera, impressed.",
+      "Medium-full shot from the knees up, 35mm lens at f/4, camera slightly above bonnet height so both halves read clearly.",
+      "Bright, even white light from a hexagonal LED ceiling grid, its honeycomb reflection sharp on the gloss half and softly diffused on the matte half.",
+      M.STYLE, M.AVOID_REVIEW, ar("3:4")] },
+  { g: "reviews", code: "R3", title: "Install day, she watches the pro", ratio: "3:4", attach: ATT_ABC, outfit: "W9",
+    build: o => [
+      "Create a photorealistic behind-the-scenes photograph for her car-care content.",
+      M.REF, W[o][1],
+      "In a paint-protection-film installation bay, an installer in a plain black uniform, face turned away from the camera, squeegees a large sheet of clear film onto the bonnet of " + CAR.CAR1 + ", a fine mist of slip solution on the panel. She stands just beside the car with her arms loosely crossed, watching, then glances at the camera with an impressed half-smile. A plotter and racks of film rolls sit softly blurred in the background.",
+      "Medium-full shot from the knees up, 35mm lens at f/2.8, eye level.",
+      "Bright, even overhead LED light with clean reflections along the body of the car.",
+      M.STYLE, M.AVOID_REVIEW, ar("3:4")],
+    tip: "Keep the installer's face hidden so nobody real is recognisable and the focus stays on her." },
+  { g: "reviews", code: "R4", title: "Water beading close-up", ratio: "4:3", attach: ATT_ABC + ", Ref H (Image 4) if you have it", outfit: "W6",
+    build: o => [
+      "Create a photorealistic close-up product review photograph showing water beading on paint protection film.",
+      M.REF + " If a fourth image is attached, it shows her hands, watch, ring and nails: match them exactly.", W[o][1],
+      "She leans over the bonnet of " + CAR.CAR2 + " and sprays water from a clear spray bottle onto the film. Tight, round water beads sit on the glossy surface and roll off the edge. Her hand and the beads are pin-sharp in the foreground, with her face softly focused in the upper part of the frame, smiling down at the result.",
+      "Detail shot, 100mm macro lens at f/4, camera just above bonnet height.",
+      "Window daylight from one side, catching bright highlights in every water bead.",
+      M.STYLE, M.AVOID_REVIEW, ar("4:3")] },
+  { g: "reviews", code: "R5", title: "Real studio + real product", ratio: "3:4", attach: ATT_ABC + ", place photo (Image 4), product photo (Image 5)", outfit: "W11",
+    build: o => [
+      "Create a photorealistic product review photograph for her car-care content, set in a real detailing studio.",
+      refText([X.place(4), X.product(5)]), W[o][1],
+      placeText(4, "[studio name]", true),
+      "She stands beside the front of " + CAR.CAR5 + " parked in the studio, holding the product from Image 5 at chest height with the label facing the lens, and smiles at the camera.",
+      productText(5, "[product name]"),
+      "Medium shot from the waist up, 50mm lens at f/2.8.",
+      M.STYLE, avoidProduct(5), ar("3:4")],
+    tip: "Use a place photo taken at eye level with the space empty, in the light you want: the model keeps its perspective and light. Get the studio owner's OK first." },
+  { g: "reviews", code: "BG1", title: "Swap in a real background (edit)", ratio: "same", attach: "Ref A (Image 1), the photo of her to edit (Image 2), place photo (Image 3)",
+    build: () => ["Edit Image 2. Keep her exactly as she is: her face matching Image 1, her hair, pose, outfit, expression and anything she holds, plus the car if there is one. Replace everything behind her with the real place in Image 3, kept exactly as photographed, including its architecture, fixtures, colours and signage. Relight her to match Image 3's light direction, softness and colour temperature, adjust perspective and scale so she stands naturally on its floor, and add realistic contact shadows and reflections. Keep the aspect ratio of Image 2."],
+    tip: "Works best when the place photo was shot from roughly the same height and angle as the photo of her." },
+  { g: "reviews", code: "PR1", title: "Swap in a real product (edit)", ratio: "same", attach: "Ref A (Image 1), the photo of her to edit (Image 2), product photo (Image 3)",
+    build: () => ["Edit Image 2. Keep everything identical, including her face matching Image 1, her pose, outfit, background and lighting. Only replace the product she is holding with the product in Image 3, reproduced exactly, including its packaging, colours, label layout and printed text, at a realistic size, with her fingers wrapped naturally around it and the lighting on it matched to the scene."] },
+
   { g: "video", code: "V1", title: "Talking head for Reels and Shorts", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
     build: o => [M.REF, W[o][1], M.ANCHOR,
       "Chest-up framing, centered, in a minimalist private garage with " + CAR.CAR1 + " softly out of focus behind her.",
@@ -320,6 +454,13 @@ const P = [
       "She stands in a minimalist private garage between two supercars, about to walk toward the camera, body facing the lens, arms relaxed, soft smile, eyes on the camera. Her face is fully visible and evenly lit.",
       "Medium-full framing from the knees up, 35mm lens at f/2.8.", L.L2, M.STYLE, M.AVOID, ar("9:16")],
     tip: "For image-to-video tools that animate movement, not just lips." },
+  { g: "video", code: "V5", title: "Product review talking head", ratio: "9:16", attach: ATT_ABC + ", product photo (Image 4)", outfit: "W11",
+    build: o => [refText([X.product(4)]), W[o][1], M.ANCHOR,
+      "Chest-up framing, centered, in a high-end car detailing studio with " + CAR.CAR6 + " softly out of focus behind her under a hexagonal LED ceiling grid. She holds the product low at chest height with the label facing the lens, well clear of her face.",
+      productText(4, "[product name]"),
+      "50mm lens at f/2, eye level. Soft frontal key light with gentle fill.",
+      M.STYLE, avoidProduct(4), ar("9:16")],
+    tip: "Animate the talk from this frame, then cut to R2–R4 stills or clips as B-roll." },
 
   { g: "fixes", code: "F1", title: "Face drifted", ratio: "same", attach: "Ref A (Image 1) + the image to fix",
     build: () => ["Keep this image exactly the same — pose, outfit, car, background and lighting. Only correct her face so it matches Image 1 exactly."] },
@@ -336,7 +477,12 @@ const P = [
     build: o => ["Keep her identity, pose, scene, car and lighting identical. Replace the plain white reference clothes with this outfit, fitted naturally to her body. " + W[o][1]] },
   { g: "fixes", code: "F7", title: "Remove the mole", ratio: "same", attach: "the image to fix",
     build: () => ["Keep this image exactly the same, including her identity, expression, pose, hair, lighting and background. Only remove the small mole or beauty mark near her lips, leaving clear skin there with the same tone and natural texture, including pores, as the skin around it."],
-    tip: "Run this on your Ref A first, then regenerate Ref B, C and D from the clean Ref A so the mole doesn't come back from the references." }
+    tip: "Run this on your Ref A first, then regenerate Ref B, C and D from the clean Ref A so the mole doesn't come back from the references." },
+  { g: "fixes", code: "F8", title: "Product label came out wrong", ratio: "same", attach: "the image to fix (Image 1), product photo (Image 2)",
+    build: () => ["Keep everything in Image 1 identical, including her identity, pose and the scene. Only redraw the product's packaging so it matches Image 2 exactly: the same logo, colours, layout and printed text, spelled correctly."],
+    tip: "If the text still drifts, crop the product photo tighter so the label fills more of it." },
+  { g: "fixes", code: "F9", title: "She looks pasted onto the background", ratio: "same", attach: "the image to fix",
+    build: () => ["Keep her and the background exactly as they are. Only blend her into the scene: match the light direction, colour temperature and contrast on her to the background, add soft contact shadows under her feet and the car, and match the grain and sharpness of the whole image."] }
 ];
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -392,13 +538,300 @@ P.forEach((p, i) => {
   });
 });
 
+// ---------- Shot builder ----------
+// Each table row: k (key), label, text; car:true means it only works with a car in the shot.
+const B = {
+  LOC: [
+    { k: "G1", g: "Studios & garages", label: "Private garage", light: "BL2", text: "in a minimalist private garage: polished dark concrete floor, matte black walls and more cars under fitted covers softly blurred in the background" },
+    { k: "G2", g: "Studios & garages", label: "Detailing studio", light: "BL6", text: "in a high-end car detailing studio: spotless light-grey epoxy floor, white walls, a hexagonal LED light grid on the ceiling and neat shelves of detailing products softly blurred in the background" },
+    { k: "G3", g: "Studios & garages", label: "PPF install bay", light: "BL6", text: "in a paint-protection-film installation bay: a plotter cutting film on a side bench, rolls of clear film on a wall rack, and an installer in a plain black uniform working in the soft-focus background with their face turned away" },
+    { k: "G4", g: "Studios & garages", label: "Ceramic coating bay", light: "BL7", text: "in a dim ceramic-coating bay lined with tall vertical LED panels, the car's paint reflecting long, clean lines of light" },
+    { k: "G5", g: "Studios & garages", label: "Hand-wash bay", light: "BL8", text: "in a modern hand-wash bay with a glossy wet floor, thick white foam sliding off the car and a soft mist in the air" },
+    { k: "G6", g: "Studios & garages", label: "Detailing studio counter", light: "BL5", text: "at the reception counter of a car detailing studio, with film finish swatches and product displays on the wall behind her" },
+    { k: "G7", g: "Studios & garages", label: "Showroom", light: "BL5", text: "in a bright supercar showroom with floor-to-ceiling glass and a glossy white floor" },
+    { k: "C1", g: "City", label: "DHA café street", light: "BL3", text: "on a leafy DHA street in Karachi, outside a modern café with a white facade and potted palms" },
+    { k: "C2", g: "City", label: "Karachi seafront", light: "BL9", text: "on a seaside promenade road in Karachi, the Arabian Sea and the glowing city behind her" },
+    { k: "C3", g: "City", label: "Underground parking", light: "BL2", text: "in a clean underground parking garage with painted concrete pillars and fluorescent ceiling tubes" },
+    { k: "C4", g: "City", label: "Rooftop car park", light: "BL4", text: "on a rooftop car park with the city skyline behind her" },
+    { k: "C5", g: "City", label: "Fuel station at night", light: "BL4", text: "at a modern fuel station at night under a glowing white canopy" },
+    { k: "C6", g: "City", label: "Hotel entrance", light: "BL9", text: "at the entrance of a luxury hotel under a lit porte-cochère, a doorman softly blurred in the background" },
+    { k: "C7", g: "City", label: "Villa driveway", light: "BL3", text: "in the driveway of a modern white villa with clean lines and manicured plants" },
+    { k: "N1", g: "Road & nature", label: "Coastal highway", light: "BL3", text: "on an empty coastal highway along the Arabian Sea, waves breaking on the rocks below" },
+    { k: "N2", g: "Road & nature", label: "Mountain pass", light: "BL8", text: "on a winding mountain road in northern Pakistan, snow-capped peaks and pine forest behind her" },
+    { k: "N3", g: "Road & nature", label: "Desert road", light: "BL3", text: "on a straight desert road through golden dunes, heat shimmer on the horizon" },
+    { k: "N4", g: "Road & nature", label: "Lake overlook", light: "BL8", text: "at a scenic overlook beside a quiet lake in the hills" },
+    { k: "E1", g: "Events", label: "Night car meet", light: "BL4", text: "at a night car meet on a rooftop, a row of glossy cars and a crowd of enthusiasts softly blurred behind her" },
+    { k: "E2", g: "Events", label: "Track pit lane", light: "BL8", text: "in a race-track pit lane with pit garages in soft focus" },
+    { k: "E3", g: "Events", label: "Auto show stand", light: "BL1", text: "on an auto-show stand in a large exhibition hall, the car on a raised platform under bright show lighting, visitors softly blurred" },
+    { k: "F1", g: "Lifestyle", label: "Café window seat", light: "BL5", text: "inside a bright minimalist café at a window table, the car visible parked outside through the glass" },
+    { k: "F2", g: "Lifestyle", label: "Driver's seat", light: "BL5", car: true, text: "in the driver's seat of the car, the leather, carbon and stitching of the interior around her" }
+  ],
+  ACT: {
+    scene: [
+      { k: "A1", label: "Leaning on the car", car: true, text: "She leans casually against the front fender of the car, one hand resting lightly on it and the other on her hip." },
+      { k: "A2", label: "Walking toward camera", text: "She walks toward the camera mid-stride, relaxed and confident, arms swinging naturally." },
+      { k: "A3", label: "At the open door", car: true, text: "She stands at the open driver's door of the car, one hand on top of the door, about to get in." },
+      { k: "A4", label: "Look back over shoulder", text: "She pauses mid-walk and looks back over her shoulder at the camera." },
+      { k: "A5", label: "Admiring a wheel", car: true, text: "She crouches gracefully beside a front wheel of the car, fingertips tracing a spoke as she admires the brake caliper." },
+      { k: "A6", label: "Arms crossed, confident", text: "She stands tall with her arms loosely crossed and her weight on one leg, owning the frame." },
+      { k: "A7", label: "Candid laugh", text: "She is caught in a candid moment, laughing and tucking a strand of hair behind her ear." },
+      { k: "A8", label: "Sitting sideways in the seat", car: true, text: "She sits sideways in the driver's seat with the door open and her feet on the ground outside." }
+    ],
+    selfie: [
+      { k: "S1", label: "Arm's-length front camera", text: "She takes a selfie at arm's length from a slightly high angle with her phone's front camera; the phone itself is out of frame." },
+      { k: "S2", label: "Mirror selfie", text: "She takes a mirror selfie in a large mirror, holding her phone in a plain case at chest height so it covers none of her face, the mirror showing her whole outfit." },
+      { k: "S3", label: "0.5× ultra-wide with car", car: true, text: "She takes a 0.5× ultra-wide selfie from low and close, the car stretching dramatically behind her with slight wide-angle distortion at the edges." },
+      { k: "S4", label: "Driver's seat selfie", car: true, text: "She takes a selfie from the driver's seat, the top of the steering wheel just visible at the bottom of the frame, daylight from the side window on her face." },
+      { k: "S5", label: "Car over her shoulder", car: true, text: "She takes a selfie with the car filling the background over her shoulder, her head slightly tilted." },
+      { k: "S6", label: "Phone on tripod, timer", text: "A casual full-length photo taken with her phone on a small tripod using the timer, framing slightly imperfect." },
+      { k: "S7", label: "Friend-taken candid", text: "A candid phone photo a friend took of her, slightly off-centre and caught mid-movement." }
+    ],
+    review: [
+      { k: "R1", label: "Presenting the product", text: "She holds the product up beside her face at shoulder height, label facing the lens, presenting it to her followers." },
+      { k: "R2", label: "Pointing at a film edge", car: true, text: "She points with one fingertip to the wrapped edge of the film on the bonnet, showing how cleanly it is tucked, and glances at the camera." },
+      { k: "R3", label: "Inspecting with a light", car: true, text: "She holds a small handheld inspection light that rakes across a panel, examining the finish closely with a focused expression." },
+      { k: "R4", label: "Gloss vs matte split", car: true, text: "She stands beside the bonnet, which is split down the middle along a crisp line: one half in gloss clear film, the other in matte clear film. She gestures toward the difference." },
+      { k: "R5", label: "Watching the install", car: true, text: "She watches beside the car as an installer in a plain black uniform, face turned away, squeegees film onto a panel; she looks at the camera with an impressed smile." },
+      { k: "R6", label: "Water beading demo", car: true, text: "She sprays water from a clear spray bottle onto the bonnet, tight round beads forming and rolling off the surface." },
+      { k: "R7", label: "Self-healing demo", car: true, text: "An installer, face out of frame, warms a fine scratch in the film with a heat gun while she leans in to watch the scratch disappear." },
+      { k: "R8", label: "Unboxing a film roll", text: "She opens a long product box on a clean workbench and lifts out a roll of film, the box label facing the camera." },
+      { k: "R9", label: "Swatch board on the paint", car: true, text: "She holds a board of film finish and colour swatches against the car's paint to compare them." },
+      { k: "R10", label: "Final reveal", car: true, text: "She stands proudly beside the finished car, one arm extended toward it as if revealing it, the fresh finish glowing under the lights." }
+    ]
+  },
+  FIN: [
+    { k: "F1", label: "Gloss clear PPF", text: "The car wears gloss clear paint protection film, invisible except for a deeper, wet-looking gloss." },
+    { k: "F2", label: "Matte clear PPF", text: "The car wears matte clear paint protection film that turns its glossy paint into a smooth satin-matte finish." },
+    { k: "F3", label: "Colour PPF", text: "The car wears a colour-change paint protection film in a rich, deep gloss colour with flawless edges." },
+    { k: "F4", label: "Carbon-look film", text: "The car's mirrors, splitter and trim wear carbon-fibre-pattern film with a realistic woven texture." },
+    { k: "F5", label: "Colour-shift PPF", text: "The car wears colour-shift paint protection film that moves from purple to teal as the light changes across the body." },
+    { k: "F6", label: "Gloss black accents", text: "The car's roof and mirrors wear deep gloss black paint protection film for a two-tone look." },
+    { k: "F7", label: "Ceramic coating", text: "The car's paint has a fresh ceramic coating with a mirror-like reflection." },
+    { k: "F8", label: "Window tint", text: "The car's side windows wear dark ceramic tint film that still shows a hint of the interior." }
+  ],
+  SIZE: [
+    { k: "Z1", label: "Detail (hands + subject)", text: "Detail shot: tight on her hands and the subject of the shot, her face partly in frame, 100mm macro lens at f/4." },
+    { k: "Z2", label: "Close-up", text: "Close-up portrait, head and shoulders, 85mm lens at f/1.8, eyes tack sharp, shallow depth of field." },
+    { k: "Z3", label: "Medium, waist up", text: "Medium shot from the waist up, 50mm lens at f/2." },
+    { k: "Z4", label: "Medium-full, knees up", text: "Medium-full shot from the knees up, 35mm lens at f/2.8." },
+    { k: "Z5", label: "Full body", text: "Full-body shot, head to toe with space above her head and below her feet, 35mm lens at f/2.8." },
+    { k: "Z6", label: "Wide environmental", text: "Wide environmental shot, 24mm lens, she fills about a third of the frame." }
+  ],
+  HEIGHT: [
+    { k: "H1", label: "Eye level", text: "Camera at eye level." },
+    { k: "H2", label: "Slightly high", text: "Camera slightly above her, looking gently down." },
+    { k: "H3", label: "Low hero", text: "Low hero angle from knee height, looking slightly up." },
+    { k: "H4", label: "Overhead", text: "Overhead angle, looking down from above." },
+    { k: "H5", label: "Ground level", text: "Camera at ground level, lens just above the floor." }
+  ],
+  ORIENT: [
+    { k: "O1", label: "Facing camera", text: "Her body faces the camera straight on." },
+    { k: "O2", label: "Three-quarter left", text: "Her body is angled three-quarters toward the left of the frame, face turned to the lens." },
+    { k: "O3", label: "Three-quarter right", text: "Her body is angled three-quarters toward the right of the frame, face turned to the lens." },
+    { k: "O4", label: "Profile", text: "She is in side profile, looking ahead past the camera." },
+    { k: "O5", label: "From behind, looking back", text: "She is seen from behind, looking back over her shoulder at the lens." }
+  ],
+  EXPR: [
+    { k: "E1", label: "Soft closed-lip smile", text: "Her expression is a soft, closed-lip smile." },
+    { k: "E2", label: "Warm smile, teeth", text: "Her expression is a warm, open smile showing her teeth." },
+    { k: "E3", label: "Candid laugh", text: "She is mid-laugh, genuinely amused." },
+    { k: "E4", label: "Confident half-smile", text: "Her expression is a confident, knowing half-smile." },
+    { k: "E5", label: "Excited surprise", text: "Her expression is excited surprise, brows raised and lips parted." },
+    { k: "E6", label: "Focused, assessing", text: "Her expression is focused and assessing, like she's judging the quality of the work." },
+    { k: "E7", label: "Mid-sentence", text: "She is mid-sentence, lips naturally parted, as if talking to her followers." },
+    { k: "E8", label: "Calm neutral", text: "Her expression is calm and neutral." }
+  ],
+  LIGHT: [
+    { k: "BL1", label: "Soft studio", text: "Soft studio light: a large softbox 45 degrees to her left with gentle fill and soft shadows, no lighting equipment in the frame." },
+    { k: "BL2", label: "Garage LEDs", text: "Garage light: cool linear LED ceiling strips, warm accent lights, glossy reflections on the floor." },
+    { k: "BL3", label: "Golden hour", text: "Golden hour: low warm sun behind her as a rim light, soft bounce light on her face." },
+    { k: "BL4", label: "Night neon", text: "Night city light: streetlights and neon with magenta and teal accents, a soft key light on her face." },
+    { k: "BL5", label: "Window daylight", text: "Window daylight: large soft daylight from one side, natural and airy." },
+    { k: "BL6", label: "Detailing hex LEDs", text: "Bright, even white light from a hexagonal LED ceiling grid that reflects as a crisp honeycomb pattern in the paint, ideal for showing the finish." },
+    { k: "BL7", label: "Dark bay, light lines", text: "A dim bay lit by tall vertical LED panels that draw long, clean reflection lines along the car's body, with soft fill on her face." },
+    { k: "BL8", label: "Bright overcast", text: "Bright overcast daylight, soft and nearly shadowless, with true colours." },
+    { k: "BL9", label: "Blue hour", text: "Blue hour: a deep blue sky, warm city lights coming on, and a soft key light on her face." },
+    { k: "BL10", label: "Rainy night", text: "Rainy night: wet ground with long reflections of street lights, light drizzle, and a soft key light on her face." }
+  ]
+};
+const FMT = {
+  scene: { label: "Scene", acts: "scene", ratio: "3:4", intent: "Create a photorealistic lifestyle photograph of her for her Instagram feed.",
+    axes: ["loc", "car", "outfit", "act", "size", "height", "orient", "expr", "light", "ratio"] },
+  selfie: { label: "Selfie", acts: "selfie", ratio: "9:16", intent: "Create a casual smartphone photo of her that she would post to her stories.",
+    axes: ["loc", "car", "outfit", "act", "expr", "light", "ratio"] },
+  review: { label: "Product review", acts: "review", ratio: "3:4", needsCar: true, intent: "Create a photorealistic product review photograph for her car-care content. The product and the finish on the car must be clear, accurate and easy to read.",
+    axes: ["loc", "car", "outfit", "act", "fin", "size", "height", "orient", "expr", "light", "ratio"] },
+  talk: { label: "Talking head", ratio: "9:16", intent: "Create the starting frame for a talking-avatar video.",
+    axes: ["loc", "car", "outfit", "light", "ratio"] }
+};
+const RATIOS = ["3:4", "9:16", "1:1", "4:3", "16:9"];
+const FIELDS = [["loc", "Place"], ["car", "Car"], ["outfit", "Outfit"], ["act", "Action"], ["fin", "Finish"], ["size", "Framing"], ["height", "Camera height"], ["orient", "Body angle"], ["expr", "Expression"], ["light", "Light"], ["ratio", "Aspect ratio"]];
+const TOGGLES = [["place", "Real place photo"], ["product", "Product photo"], ["carPhoto", "Real car photo"], ["outRef", "Outfit ref"], ["hands", "Ref H (hands)"]];
+const TEXTS = [["placeName", "Place name (optional)", "e.g. a detailing studio in DHA Phase 6"], ["productName", "Product name (optional)", "e.g. the exact product name"], ["customCar", "Your own car (optional)", "e.g. a Shark Blue sports coupe, badges removed"]];
+const CARS = Object.keys(CAR).map(k => ({ k: k, label: CAR_LABEL[k], text: CAR[k] })).concat([{ k: "NONE", label: "No car", text: "" }]);
+const BDEF = { fmt: "scene", loc: "G1", car: "CAR1", outfit: "W1", act: "", fin: "F1", size: "Z5", height: "H1", orient: "O1", expr: "E1", light: "auto", ratio: "3:4",
+  place: false, product: false, carPhoto: false, outRef: false, hands: false, placeName: "", productName: "", customCar: "" };
+let S = Object.assign({}, BDEF);
+try { Object.assign(S, JSON.parse(localStorage.getItem("inaya-builder") || "{}") || {}); } catch (e) {}
+if (!FMT[S.fmt]) S.fmt = "scene";
+
+const carOn = st => !!st.carPhoto || !!st.customCar.trim() || st.car !== "NONE";
+function options(axis, st) {
+  const f = FMT[st.fmt];
+  if (axis === "loc") return B.LOC.filter(o => !o.car || carOn(st));
+  if (axis === "car") return CARS.filter(o => !(f.needsCar && o.k === "NONE"));
+  if (axis === "outfit") return Object.keys(W).map(k => ({ k: k, label: k + " · " + W[k][0] }));
+  if (axis === "act") return B.ACT[f.acts].filter(o => !o.car || carOn(st));
+  if (axis === "fin") return B.FIN;
+  if (axis === "size") return B.SIZE;
+  if (axis === "height") return B.HEIGHT;
+  if (axis === "orient") return B.ORIENT;
+  if (axis === "expr") return B.EXPR;
+  if (axis === "light") return [{ k: "auto", label: st.place ? "Match the place photo" : "Auto: suits the place" }].concat(B.LIGHT);
+  if (axis === "ratio") return RATIOS.map(r => ({ k: r, label: r }));
+  return [];
+}
+// The place photo replaces the place and camera-height choices.
+const active = st => FMT[st.fmt].axes.filter(a => !(st.place && (a === "loc" || a === "height")));
+function normalize(st) {
+  active(st).forEach(a => { const o = options(a, st); if (!o.some(x => x.k === st[a])) st[a] = o[0].k; });
+}
+const pick = (list, k) => list.find(o => o.k === k);
+
+function assemble(st) {
+  const f = FMT[st.fmt];
+  const imgs = ["Ref A", "Ref B", "Ref C"], extra = [];
+  const add = (name, fn) => { imgs.push(name); const n = imgs.length; extra.push(fn(n)); return n; };
+  const iPlace = st.place ? add("place photo", X.place) : 0;
+  const iProd = st.product ? add("product photo", X.product) : 0;
+  const iCar = st.carPhoto ? add("car photo", X.car) : 0;
+  const iOut = st.outRef ? add("outfit ref (" + st.outfit + ")", X.outfit) : 0;
+  if (st.hands) add("Ref H", X.hands);
+  const carText = iCar ? "the one in Image " + iCar + (st.customCar.trim() ? ", " + st.customCar.trim() : "") : (st.customCar.trim() || (st.car !== "NONE" ? CAR[st.car] : ""));
+  const loc = pick(B.LOC, st.loc);
+  const out = [f.intent, refText(extra), (iOut ? "Her outfit matches Image " + iOut + ". " : "") + W[st.outfit][1]];
+  out.push(iPlace ? placeText(iPlace, st.placeName.trim(), !!carText) : "The scene is set " + loc.text + ".");
+  if (carText) out.push("The car is " + carText + ".");
+  if (st.fmt === "talk") {
+    out.push(M.ANCHOR, "Chest-up framing, centered, 50mm lens at f/2, eye level." + (carText ? " The car is softly out of focus behind her." : ""));
+  } else {
+    let a = pick(B.ACT[f.acts], st.act).text;
+    if (!carText) a = a.replace(/the car/g, "the scene");
+    out.push(a);
+    if (st.fmt === "review") out.push(pick(B.FIN, st.fin).text);
+  }
+  if (iProd) out.push(productText(iProd, st.productName.trim()));
+  else if (st.productName.trim()) out.push("The product is " + st.productName.trim() + ", in plain packaging with no readable label.");
+  if (st.fmt === "scene" || st.fmt === "review") {
+    out.push([pick(B.SIZE, st.size).text, iPlace ? "Camera height and perspective match the place photo." : pick(B.HEIGHT, st.height).text, pick(B.ORIENT, st.orient).text].join(" "));
+  }
+  if (st.fmt !== "talk") out.push(pick(B.EXPR, st.expr).text);
+  out.push(st.light === "auto" ? (iPlace ? "Match the lighting of the place photo exactly: the same direction, softness and colour temperature." : pick(B.LIGHT, loc.light).text) : pick(B.LIGHT, st.light).text);
+  out.push(st.fmt === "selfie" ? M.STYLE_PHONE : M.STYLE);
+  out.push(iProd ? avoidProduct(iProd) : (st.fmt === "review" ? M.AVOID_REVIEW : M.AVOID));
+  out.push(ar(st.ratio));
+  return { imgs: imgs, text: out.join("\n\n") };
+}
+
+// Counting: every active choice multiplies, except car-only places and actions, which need a car.
+function counts(st) {
+  const f = FMT[st.fmt], ax = active(st);
+  const n = a => ax.includes(a) ? options(a, Object.assign({}, st, { car: "CAR1", customCar: "" })).length : 1;
+  const nLight = ax.includes("light") ? B.LIGHT.length : 1;
+  const cars = Object.keys(CAR).length;
+  const locAll = st.place ? 1 : B.LOC.length, locNo = st.place ? 1 : B.LOC.filter(o => !o.car).length;
+  const acts = f.acts ? B.ACT[f.acts] : null;
+  const actAll = acts ? acts.length : 1, actNo = acts ? acts.filter(o => !o.car).length : 1;
+  const pairs = cars * locAll * actAll + (f.needsCar ? 0 : locNo * actNo);
+  const sizes = n("size"), angles = sizes * n("height") * n("orient");
+  const total = pairs * n("outfit") * n("fin") * angles * n("expr") * nLight * n("ratio");
+  const setups = locAll * actAll * n("outfit") * sizes;
+  return { total: total, setups: setups, angles: angles };
+}
+function big(x) {
+  if (x >= 1e9) return (x / 1e9).toFixed(1).replace(/\.0$/, "") + " billion";
+  if (x >= 1e6) return (x / 1e6).toFixed(1).replace(/\.0$/, "") + " million";
+  return x.toLocaleString("en-US");
+}
+
+(function initBuilder() {
+  const fmtEl = document.getElementById("b-fmt"), fieldsEl = document.getElementById("b-fields");
+  const togEl = document.getElementById("b-toggles"), textEl = document.getElementById("b-text");
+  const outEl = document.getElementById("b-out"), attEl = document.getElementById("b-attach"), countEl = document.getElementById("b-count");
+  Object.keys(FMT).forEach(k => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = FMT[k].label; b.dataset.fmt = k;
+    b.addEventListener("click", () => { if (S.fmt !== k) { S.fmt = k; S.ratio = FMT[k].ratio; S.act = ""; update(); } });
+    fmtEl.appendChild(b);
+  });
+  FIELDS.forEach(([a, label]) => {
+    const l = document.createElement("label"); l.className = "field"; l.dataset.axis = a;
+    l.innerHTML = '<span>' + label + '</span><select data-k="' + a + '"></select>';
+    fieldsEl.appendChild(l);
+  });
+  TOGGLES.forEach(([k, label]) => {
+    const l = document.createElement("label"); l.className = "chk";
+    l.innerHTML = '<input type="checkbox" data-k="' + k + '"> ' + label;
+    togEl.appendChild(l);
+  });
+  TEXTS.forEach(([k, label, ph]) => {
+    const l = document.createElement("label"); l.className = "field";
+    l.innerHTML = '<span>' + label + '</span><input type="text" data-k="' + k + '" placeholder="' + esc(ph) + '">';
+    textEl.appendChild(l);
+  });
+  document.getElementById("bld").addEventListener("change", e => {
+    const k = e.target.dataset && e.target.dataset.k; if (!k) return;
+    S[k] = e.target.type === "checkbox" ? e.target.checked : e.target.value; update();
+  });
+  textEl.addEventListener("input", e => { const k = e.target.dataset.k; if (k) { S[k] = e.target.value; update(true); } });
+  function update(typing) {
+    normalize(S);
+    fmtEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.fmt === S.fmt)));
+    const ax = active(S);
+    fieldsEl.querySelectorAll(".field").forEach(l => {
+      const a = l.dataset.axis; l.hidden = !ax.includes(a); if (l.hidden) return;
+      const sel = l.querySelector("select"), list = options(a, S);
+      let html = "", grp = null;
+      list.forEach(o => {
+        if (o.g !== grp) { if (grp) html += "</optgroup>"; grp = o.g || null; if (grp) html += '<optgroup label="' + esc(grp) + '">'; }
+        html += '<option value="' + o.k + '"' + (o.k === S[a] ? " selected" : "") + ">" + esc(o.label) + "</option>";
+      });
+      if (grp) html += "</optgroup>";
+      sel.innerHTML = html;
+    });
+    togEl.querySelectorAll("input").forEach(i => { i.checked = !!S[i.dataset.k]; });
+    if (!typing) textEl.querySelectorAll("input").forEach(i => { i.value = S[i.dataset.k]; });
+    const r = assemble(S);
+    outEl.textContent = r.text;
+    attEl.textContent = r.imgs.map((n, i) => n + " (Image " + (i + 1) + ")").join(", ");
+    const c = counts(S);
+    countEl.innerHTML = "This format can make <b>" + big(c.total) + "</b> different prompts. That's <b>" + big(c.setups) + "</b> visibly different set-ups (place × action × outfit × framing)" +
+      (c.angles > 1 ? ", each from <b>" + c.angles + "</b> camera angles" : "") + ". All formats together: <b>" + big(Object.keys(FMT).reduce((t, k) => t + counts(Object.assign({}, S, { fmt: k, place: false })).total, 0)) + "</b>.";
+    try { localStorage.setItem("inaya-builder", JSON.stringify(S)); } catch (e) {}
+  }
+  document.getElementById("b-rand").addEventListener("click", () => {
+    active(S).forEach(a => { if (a === "ratio") return; const o = options(a, S); S[a] = o[Math.floor(Math.random() * o.length)].k; normalize(S); });
+    update();
+  });
+  const copyBtn = document.getElementById("b-copy");
+  copyBtn.addEventListener("click", () => copyText(outEl.textContent, copyBtn, outEl, "Copy prompt", "Copied"));
+  const more = document.getElementById("b-more"), box = document.getElementById("b-box");
+  more.addEventListener("click", () => { const open = box.classList.toggle("open"); more.textContent = open ? "Collapse" : "Show full"; more.setAttribute("aria-expanded", String(open)); });
+  update();
+})();
+
 // Modules reference
 const groups = [
-  ["Core blocks", [["DNA", M.DNA], ["BODY", M.BODY], ["WHITE_TOP", M.WHITE_TOP], ["WHITE_FULL", M.WHITE_FULL], ["PERSONA", M.PERSONA], ["REF", M.REF], ["STYLE", M.STYLE], ["AVOID", M.AVOID], ["ANCHOR", M.ANCHOR]]],
+  ["Core blocks", [["DNA", M.DNA], ["BODY", M.BODY], ["WHITE_TOP", M.WHITE_TOP], ["WHITE_FULL", M.WHITE_FULL], ["HANDS", M.HANDS], ["PERSONA", M.PERSONA], ["REF", M.REF], ["STYLE", M.STYLE], ["STYLE_PHONE", M.STYLE_PHONE], ["AVOID", M.AVOID], ["AVOID_REVIEW", M.AVOID_REVIEW], ["ANCHOR", M.ANCHOR]]],
   ["Wardrobe", Object.keys(W).map(k => [k, W[k][1]])],
   ["Cars", Object.keys(CAR).map(k => [k, CAR[k]])],
   ["Shots", Object.keys(C).map(k => [k, C[k]])],
-  ["Lighting", Object.keys(L).map(k => [k, L[k]])]
+  ["Lighting", Object.keys(L).map(k => [k, L[k]])],
+  ["Builder · places", B.LOC.map(o => [o.k, o.label + ": " + o.text])],
+  ["Builder · review actions", B.ACT.review.map(o => [o.k, o.text])],
+  ["Builder · finishes", B.FIN.map(o => [o.k, o.text])],
+  ["Builder · framing, height, body angle", B.SIZE.concat(B.HEIGHT, B.ORIENT).map(o => [o.k, o.text])],
+  ["Builder · expressions", B.EXPR.map(o => [o.k, o.text])],
+  ["Builder · light", B.LIGHT.map(o => [o.k, o.text])]
 ];
 const mo = document.getElementById("modules-out");
 groups.forEach(([name, rows]) => {

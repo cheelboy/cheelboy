@@ -64,7 +64,22 @@ would brief a photographer and retoucher, not the way you would tag a dataset.
 - Generate sheets at the highest resolution the tool offers (2K or 4K), because each
   figure only gets a quarter of the frame.
 
-## 7. Format
+## 7. Real places, real products, real cars
+
+- Attach them after A, B and C, and name each one's job: "Image 4 is a photograph of a
+  real location: use it as the setting." "Image 5 is the real product: reproduce it exactly."
+- **Place photo:** tell the model to keep the place exactly as photographed and to fit her
+  into it. That means matching perspective, camera height, light direction and colour
+  temperature, and adding contact shadows and reflections. Drop the camera-height and
+  place text from the prompt; the photo decides both.
+- **Product photo:** ask for the packaging, colours, label layout and printed text to be
+  reproduced exactly, at a realistic size. Allow only that product's branding and ban all
+  other text and logos in the same sentence. One clean, front-on photo per product.
+- **Real car photo:** ask for body, colour, wheels and details exactly, with a blank number plate.
+- Without a product photo, keep packaging plain; the model will invent wrong labels.
+- In reviews she presents and judges; an installer, face hidden, does the hands-on work.
+
+## 8. Format
 
 - Put the aspect ratio in the prompt as the last line. Use only ratios the target app
   offers. The Gemini app offers 1:1, 3:4, 4:3, 9:16 and 16:9.
@@ -82,3 +97,7 @@ Before shipping a prompt, check that:
 5. Shot, lens, light and aspect ratio are all stated.
 6. The prompt contains nothing that contradicts the character DNA, such as a mole,
    highlights, a different hairstyle, or clothes that should be clean but aren't.
+7. Real place, product and car images are numbered after A, B and C, and the only
+   branding allowed is the attached product's own.
+8. New builder options are checked with the browser fuzz test: every format and toggle
+   combination assembles with no `undefined` and no image number beyond those attached.
