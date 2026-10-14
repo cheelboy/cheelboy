@@ -94,6 +94,7 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
 
   <nav class="phases" aria-label="Sections">
     <a href="#workflow">Workflow</a>
+    <a href="#rules">Rules</a>
     <a href="#master">1 · Master</a>
     <a href="#refs">2 · References</a>
     <a href="#scenes">3 · Scenes</a>
@@ -105,28 +106,41 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
   <section id="workflow">
     <h2>Workflow</h2>
     <ol class="steps">
-      <li><div><b>Master portrait (Ref A).</b> Run the master prompt 6–10 times with no image attached. Keep the one face you'd use for years.</div></li>
-      <li><div><b>Reference set.</b> Attach Ref A and make the face turnaround (Ref B), full-body proportion sheet (Ref C) and expression sheet (Ref D).</div></li>
-      <li><div><b>Scenes.</b> Attach Ref A, B and C, in that order, to every scene. Ref A always stays Image 1.</div></li>
+      <li><div><b>Master portrait (Ref A).</b> Run the master prompt 6–10 times with no image attached. Keep the one face you'd use for years: clear skin, no mole. If you already have a Ref A with the old beauty mark, clean it with fix F7 instead.</div></li>
+      <li><div><b>Reference set.</b> Attach Ref A and make the face turnaround (Ref B), full-body proportion sheet (Ref C) and expression sheet (Ref D). All of them use plain white clothes, so you judge her face and body rather than an outfit.</div></li>
+      <li><div><b>Scenes.</b> Attach Ref A, B and C, in that order, to every scene. Ref A always stays Image 1. The prompts tell the model to ignore the white reference clothes; if they leak through anyway, use fix F6.</div></li>
       <li><div><b>Video frames.</b> Generate anchor frames for your lip-sync or image-to-video tool. Every ratio here is one the app offers: 16:9, 4:3, 1:1, 3:4 or 9:16.</div></li>
+    </ol>
+  </section>
+
+  <section id="rules">
+    <h2>Nano Banana Pro rules</h2>
+    <p class="sec-note">What every prompt here follows. Use the same rules when you write your own.</p>
+    <ol class="steps">
+      <li><div><b>Sentences, not tags.</b> Purpose, then subject, outfit, action, place, camera, light and style, ending with the aspect ratio.</div></li>
+      <li><div><b>Give every image a job.</b> Image 1 is always her face. Say what to take from each image, and what to ignore.</div></li>
+      <li><div><b>Don't describe her face with images attached.</b> The image is the description, and text competes with it.</div></li>
+      <li><div><b>Say what you want.</b> "Clear skin", "an unbadged car", then one short "No …" sentence for hard limits.</div></li>
+      <li><div><b>Size up for sheets.</b> The pill shows the resolution to use where your tool lets you pick it (AI Studio, the API, Flow).</div></li>
+      <li><div><b>One change per edit.</b> Say what stays the same before what changes.</div></li>
     </ol>
   </section>
 
   <section id="master">
     <h2>Phase 1 · Master portrait</h2>
-    <p class="sec-note">Plain backdrop, plain white tee, face fully visible. Re-roll rather than edit at this stage.</p>
+    <p class="sec-note">Plain backdrop, plain white tee, face fully visible, clear skin with no mole. Re-roll rather than edit at this stage.</p>
     <div class="cards" data-group="master"></div>
   </section>
 
   <section id="refs">
     <h2>Phase 2 · Reference set</h2>
-    <p class="sec-note">Attach only Ref A to B, C and D. They don't describe her face; Ref A does. Ref C adds her body description, because Ref A only shows her chest up. Save the keepers as A, B, C, D, plus one full body per outfit you'll reuse.</p>
+    <p class="sec-note">Attach only Ref A to B, C and D. Every reference is shot in plain white clothes: a white tee for the face sheets, and a fitted white tee, white leggings and bare feet on a mid-grey backdrop for the body sheet, so her proportions read without an outfit in the way. The prompts don't describe her face; Ref A does. Ref C adds her body description, because Ref A only shows her chest up. Save the keepers as A, B, C, D, plus one full body per outfit you'll reuse.</p>
     <div class="cards" data-group="refs"></div>
   </section>
 
   <section id="scenes">
     <h2>Phase 3 · Scenes</h2>
-    <p class="sec-note">Attach Ref A, Ref B and Ref C. These prompts never describe her: the images carry her look, and text would compete with them. Add an outfit reference when the same outfit must match across shots.</p>
+    <p class="sec-note">Attach Ref A, Ref B and Ref C. These prompts never describe her: the images carry her look, and text would compete with them. Each prompt names every image's job and dresses her in the chosen outfit, not the white reference clothes. Add an outfit reference when the same outfit must match across shots.</p>
     <div class="cards" data-group="scenes"></div>
   </section>
 
@@ -153,13 +167,15 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
 
 <script>
 const M = {
-  REF: "Use the attached images as references for the same woman. Image 1 is her face — match it exactly. Image 2 shows her from several angles. Image 3 shows her body proportions. Keep her face, hair, body and jewelry exactly as in the references.",
-  REF_A: "Using the woman in the attached image as the exact same person, with her face, hair and jewelry kept exactly as in the reference,",
-  DNA: "Inaya, a 25-year-old Pakistani woman from Karachi with the effortless, polished, model-like look of a modern girl from DHA, and distinctly Pakistani features. She has a youthful, fresh face that reads as early twenties while clearly being an adult woman. Fair skin with warm-neutral undertones, a soft natural rosy flush and a smooth, natural texture. Soft oval face with gently full cheeks, high cheekbones and a softly tapered jaw. Almond-shaped light-brown eyes with dark lashes, framed by thick, bold, dark brows with a soft natural arch. Slim, straight nose with a high, well-defined bridge and a narrow, refined tip. Naturally full lips in a rosy-pink tone. A small beauty mark just above the left corner of her upper lip. Very long, waist-length natural soft-black hair with a cool tone and no highlights, slightly wavy with a realistic, lived-in texture: visible individual strands, a few natural flyaways and a soft natural sheen, never overly glossy or perfectly styled. Signature hairstyle: half-up, with the top section tied in a high half-ponytail and the long lengths falling loose down her back. Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture. Signature details: thin medium gold hoop earrings, a slim gold watch on her left wrist, a slim gold ring on her right index finger, and short almond nails in nude polish. Makeup is minimal and natural: fresh skin, a soft rosy flush on her cheeks, groomed bold brows and a rosy-pink lip tint.",
+  REF: "Use the attached images as references for the same woman, Inaya. Image 1 is her face: match it exactly, including her bone structure, eye shape, brows, nose, lips and clear skin. Image 2 shows her face from several angles. Image 3 shows her body proportions and height. Keep her face, hair, body and jewelry exactly as in the references. The plain white clothes in the reference images are for reference only: dress her only in the outfit described below.",
+  REF_A: "Using the woman in the attached image (Image 1) as the exact same person, with her face, hair, clear skin and jewelry kept exactly as in the reference,",
+  DNA: "Inaya, a 25-year-old Pakistani woman from Karachi with the effortless, polished, model-like look of a modern girl from DHA, and distinctly Pakistani features. She has a youthful, fresh face that reads as early twenties while clearly being an adult woman. Fair skin with warm-neutral undertones, a soft natural rosy flush and a smooth, natural texture. Soft oval face with gently full cheeks, high cheekbones and a softly tapered jaw. Almond-shaped light-brown eyes with dark lashes, framed by thick, bold, dark brows with a soft natural arch. Slim, straight nose with a high, well-defined bridge and a narrow, refined tip. Naturally full lips in a rosy-pink tone. Her complexion is clear and even, with no moles or beauty marks anywhere on her face. Very long, waist-length natural soft-black hair with a cool tone and no highlights, slightly wavy with a realistic, lived-in texture: visible individual strands, a few natural flyaways and a soft natural sheen, never overly glossy or perfectly styled. Signature hairstyle: half-up, with the top section tied in a high half-ponytail and the long lengths falling loose down her back. Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture. Signature details: thin medium gold hoop earrings, a slim gold watch on her left wrist, a slim gold ring on her right index finger, and short almond nails in nude polish. Makeup is minimal and natural: fresh skin, a soft rosy flush on her cheeks, groomed bold brows and a rosy-pink lip tint.",
+  WHITE_TOP: "She wears a fitted plain white crew-neck tee in thick, opaque matte cotton, with no print, logo or pattern.",
+  WHITE_FULL: "She wears plain white fitted reference clothing: a fitted short-sleeve crew-neck tee in thick, opaque matte cotton, tucked into fitted high-waisted white ankle-length leggings in the same opaque fabric, and she is barefoot. Nothing is printed, branded or patterned. The clothes follow her body without adding volume, so her shoulders, bust, waist, hips and legs read clearly.",
   BODY: "Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture.",
   PERSONA: "Her energy is confident, warm and playful: soft closed-lip smiles, a gentle head tilt and a knowing look at the camera. She is a true supercar enthusiast who looks like a fashion model, never like a mechanic.",
   STYLE: "Photorealistic editorial photograph shot on a full-frame camera. Natural, unretouched skin texture with visible pores, true-to-life skin tone, realistic hair with individual strands and natural flyaways, accurate anatomy and natural hands with five fingers, subtle film grain, high dynamic range, sharp focus on her eyes.",
-  AVOID: "No text, logos, watermarks or car badges. Do not change anything about her appearance from the reference images. Her clothes stay clean and stylish: she is an enthusiast, not a mechanic, so no grease, overalls or tools in her hands.",
+  AVOID: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model, with empty hands or only the props described. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, grease, overalls or tools.",
   ANCHOR: "This frame will be animated as a talking avatar: her face is fully frontal and unobstructed, evenly lit on both sides, mouth relaxed and gently closed, eyes looking directly into the lens, hair behind her shoulders."
 };
 const W = {
@@ -198,36 +214,37 @@ const ar = r => r + " aspect ratio.";
 const P = [
   { g: "master", code: "P1", title: "Master portrait — Ref A", ratio: "3:4", attach: "nothing, text only",
     build: () => [
-      "Create a photorealistic studio portrait that will serve as the master reference image for a recurring character.",
+      "Create a photorealistic studio portrait that will serve as the master face reference for a recurring character, so every facial feature must be clear, evenly lit and unobstructed.",
       M.DNA,
-      "She wears a fitted plain white ribbed crew-neck tee with no print. Chest-up framing, facing the camera straight on with shoulders square, looking directly into the lens with a relaxed, closed-mouth soft smile. Her hair is in her signature half-up high ponytail, with the long lengths falling behind her shoulders so her full face, ears, neck and jawline are clearly visible.",
+      M.WHITE_TOP + " Chest-up framing, facing the camera straight on with shoulders square, looking directly into the lens with a relaxed, closed-mouth soft smile. Her hair is in her signature half-up high ponytail, with the long lengths falling behind her shoulders so her full face, ears, neck and jawline are clearly visible.",
       "Minimal background: a seamless, evenly lit light-grey studio backdrop with nothing else in the frame — no props, no furniture, no lighting equipment, no patterns, no visible shadows on the wall.",
       "Soft, even studio light from a large softbox slightly to her left with gentle fill, so every facial feature reads clearly with no harsh shadows.",
       M.STYLE, ar("3:4 portrait")] ,
-    tip: "Keep the face that reads youthful, early twenties and clearly adult, clearly Pakistani, beauty mark on the left above the lip, ears and jawline visible." },
+    tip: "Keep the face that reads youthful, early twenties and clearly adult, clearly Pakistani, with clear skin and no mole near the lips, and ears and jawline visible. Already have a Ref A with the old beauty mark? Run fix F7 on it instead of re-rolling." },
   { g: "master", code: "P1-edit", title: "Small tweak to a near-miss", ratio: "same", attach: "the near-miss image",
-    build: () => ["Keep this image exactly the same, including her identity, pose, lighting and background. Only change: [her eyes slightly larger / softer makeup / brows a little thinner]."],
+    build: () => ["Keep this image exactly the same, including her identity, pose, lighting and background. Only change: [her eyes slightly larger / softer makeup / brows a little thinner / remove the small mole near her lips]."],
     tip: "Replace the bracket with one change only." },
 
-  { g: "refs", code: "Ref B", title: "Turnaround sheet", ratio: "16:9", attach: "Ref A",
+  { g: "refs", code: "Ref B", title: "Face turnaround sheet", ratio: "16:9", res: "2K+", attach: "Ref A",
     build: () => [
-      M.REF_A + " create a professional character reference sheet on a plain light-grey background. Show four head-and-shoulders views side by side in one row, evenly spaced: front, three-quarter left, left profile, three-quarter right. Same plain white tee, same soft even studio light, neutral relaxed expression in every view, hair behind her shoulders.",
-      M.STYLE, "No text or labels. " + ar("16:9")] },
-  { g: "refs", code: "Ref C", title: "Full-body proportion sheet", ratio: "16:9", attach: "Ref A",
+      M.REF_A + " create a professional face turnaround sheet for a recurring character, on a plain light-grey seamless background. Show four head-and-shoulders views side by side in one row, evenly spaced, at the same scale and eye height: front, three-quarter left, left profile, three-quarter right.",
+      M.WHITE_TOP + " Same soft, even studio light in every view, neutral relaxed expression, hair in her half-up style with the lengths behind her shoulders so her ears, jawline and neck are visible.",
+      M.STYLE, "No text, labels or grid lines. " + ar("16:9")] },
+  { g: "refs", code: "Ref C", title: "Full-body proportion sheet, white", ratio: "16:9", res: "4K", attach: "Ref A",
     build: () => [
-      M.REF_A + " create a full-body character turnaround sheet for checking body proportions. Show four full-body views of her side by side in one row, evenly spaced, at the same scale and height, with her feet on the same baseline: front view, three-quarter view, right side profile, and back view. In every view she stands upright in a relaxed neutral pose, arms hanging slightly away from her body so her silhouette, bust, waist and hips read clearly.",
+      M.REF_A + " create a full-body character turnaround sheet that will be the body-proportion reference for a recurring character. Show four full-body views of her side by side in one row, evenly spaced, at the same scale and height, with her feet on one shared floor baseline: front view, three-quarter view, right side profile, and back view. In every view she stands upright in a relaxed neutral pose, weight on both feet, arms hanging slightly away from her body so her silhouette, shoulders, bust, waist, hips and legs read clearly.",
       "Her body: " + M.BODY,
-      "She wears the same outfit in every view: a fitted black short-sleeve ribbed crew-neck top and fitted high-waisted black straight-leg trousers, with white sneakers. The plain, fitted clothing shows her true body shape without adding volume.",
-      "Plain light-grey seamless studio backdrop, soft even light from both sides, no lighting equipment or props visible in the frame. Head to toe in every view, with a little space above her head and below her feet.",
+      M.WHITE_FULL + " The outfit is identical in all four views.",
+      "Seamless mid-grey studio backdrop and floor, dark enough that the white clothing stands out with a crisp silhouette. Soft, even light from both sides with gentle shadows that show the shape of her body, and no lighting equipment or props in the frame. Head to toe in every view, with a little space above her head and below her feet.",
       M.STYLE, "No text, labels or grid lines. " + ar("16:9")],
-    tip: "Ref A only shows her chest up, so this is the one attached-image prompt that states her body. The side profile is where the bust reads most clearly; if it's off, use fix F5 rather than re-rolling the face." },
-  { g: "refs", code: "Ref D", title: "Expression sheet", ratio: "4:3", attach: "Ref A",
+    tip: "Ref A only shows her chest up, so this is the one attached-image prompt that states her body. She's barefoot so shoes don't change her height, and the mid-grey backdrop keeps the white outfit from blending in. Generate at 4K if your tool offers it, because each figure gets only a quarter of the frame. If the body is off, use fix F5 rather than re-rolling the face." },
+  { g: "refs", code: "Ref D", title: "Expression sheet", ratio: "4:3", res: "2K+", attach: "Ref A",
     build: () => [
       M.REF_A + " create a 3 by 2 grid of six head-and-shoulders portraits with identical framing, lighting and plain light-grey background. Expressions, left to right, top to bottom: calm neutral; warm smile showing teeth; genuine laugh; excited surprise with raised brows; thoughtful with one brow slightly raised; mid-sentence talking with lips naturally parted.",
-      "She wears the plain white tee. " + M.STYLE, "No text, no borders between panels. " + ar("4:3")] },
+      M.WHITE_TOP + " Hair in her half-up style with the lengths behind her shoulders.", M.STYLE, "No text, no borders between panels. " + ar("4:3")] },
   { g: "refs", code: "Outfit ref", title: "Full body in one outfit", ratio: "9:16", attach: "Ref A (Image 1), Ref C (Image 2)", outfit: "W1",
     build: o => [
-      "Use the attached images as references for the same woman. Image 1 is her face — match it exactly. Image 2 shows her body proportions — match them exactly. Keep her face, hair, body and jewelry exactly as in the references.",
+      "Use the attached images as references for the same woman, Inaya. Image 1 is her face: match it exactly. Image 2 shows her body proportions and height: match them exactly, but not her clothes. The plain white clothes in Image 2 are for reference only. Keep her face, hair, body and jewelry exactly as in the references.",
       "Create a full-body studio photograph of her standing straight, facing the camera, arms relaxed at her sides, weight on both feet, with a soft confident smile.",
       W[o][1],
       "Head to toe in frame with a little space above her head and below her shoes, 35mm lens at f/4, camera at waist height. " + L.L1,
@@ -314,7 +331,12 @@ const P = [
     build: () => ["Keep her identity and the scene identical. Make her look like a fashion model who loves cars: clean, styled clothes, polished hair, no tools in her hands, no grease or dirt."] },
   { g: "fixes", code: "F5", title: "Body proportions off on the sheet", ratio: "same", attach: "the proportion sheet to fix",
     build: () => ["Keep this sheet exactly the same — face, hair, outfit, poses, background and lighting. Only adjust her body so it is a " + M.BODY.charAt(0).toLowerCase() + M.BODY.slice(1, -1) + ", consistently in all four views at the same scale."],
-    tip: "Change the wording to slightly fuller or slimmer if you want to nudge one feature." }
+    tip: "Change the wording to slightly fuller or slimmer if you want to nudge one feature." },
+  { g: "fixes", code: "F6", title: "White reference clothes leaked into a scene", ratio: "same", attach: "Ref A (Image 1) + the image to fix", outfit: "W1",
+    build: o => ["Keep her identity, pose, scene, car and lighting identical. Replace the plain white reference clothes with this outfit, fitted naturally to her body. " + W[o][1]] },
+  { g: "fixes", code: "F7", title: "Remove the mole", ratio: "same", attach: "the image to fix",
+    build: () => ["Keep this image exactly the same, including her identity, expression, pose, hair, lighting and background. Only remove the small mole or beauty mark near her lips, leaving clear skin there with the same tone and natural texture, including pores, as the skin around it."],
+    tip: "Run this on your Ref A first, then regenerate Ref B, C and D from the clean Ref A so the mole doesn't come back from the references." }
 ];
 
 function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -343,7 +365,7 @@ P.forEach((p, i) => {
   let outfit = p.outfit ? (W[outfitMemo[p.code]] ? outfitMemo[p.code] : p.outfit) : null;
   const opts = p.outfit ? Object.keys(W).map(k => '<option value="' + k + '"' + (k === outfit ? " selected" : "") + ">" + k + " · " + W[k][0] + "</option>").join("") : "";
   el.innerHTML =
-    '<div class="card-head"><span class="code">' + esc(p.code) + '</span><h3>' + esc(p.title) + '</h3>' + (p.ratio !== "same" ? '<span class="pill">' + p.ratio + '</span>' : "") + '</div>' +
+    '<div class="card-head"><span class="code">' + esc(p.code) + '</span><h3>' + esc(p.title) + '</h3>' + (p.ratio !== "same" ? '<span class="pill">' + p.ratio + (p.res ? " · " + p.res : "") + '</span>' : "") + '</div>' +
     '<p class="attach">Attach: <strong>' + esc(p.attach) + '</strong></p>' +
     (p.outfit ? '<label class="opt" for="o-' + id + '">Outfit <select id="o-' + id + '">' + opts + '</select></label>' : "") +
     '<div class="prompt-box"><pre class="prompt" id="t-' + id + '"></pre></div>' +
@@ -372,7 +394,7 @@ P.forEach((p, i) => {
 
 // Modules reference
 const groups = [
-  ["Core blocks", [["DNA", M.DNA], ["BODY", M.BODY], ["PERSONA", M.PERSONA], ["REF", M.REF], ["STYLE", M.STYLE], ["AVOID", M.AVOID], ["ANCHOR", M.ANCHOR]]],
+  ["Core blocks", [["DNA", M.DNA], ["BODY", M.BODY], ["WHITE_TOP", M.WHITE_TOP], ["WHITE_FULL", M.WHITE_FULL], ["PERSONA", M.PERSONA], ["REF", M.REF], ["STYLE", M.STYLE], ["AVOID", M.AVOID], ["ANCHOR", M.ANCHOR]]],
   ["Wardrobe", Object.keys(W).map(k => [k, W[k][1]])],
   ["Cars", Object.keys(CAR).map(k => [k, CAR[k]])],
   ["Shots", Object.keys(C).map(k => [k, C[k]])],
