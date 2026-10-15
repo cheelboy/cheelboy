@@ -914,6 +914,10 @@ const idb = (() => {
   };
 })();
 
+// In the published artifact, files are offered through the downloads capability;
+// opened as a plain file, the link downloads directly.
+let DL = null;
+try { if (window.claude && window.claude.use) window.claude.use("downloads").then(d => { DL = d; }).catch(() => {}); } catch (e) {}
 const ptStatus = document.getElementById("pt-status");
 const say = (msg, err) => { ptStatus.textContent = msg; ptStatus.classList.toggle("err", !!err); };
 const errText = e => (e && (e.message || (e.error && e.error.message) || e.code)) || String(e);
@@ -1013,7 +1017,14 @@ function addResult(host, url, label, suggest) {
   const name = "inaya_" + label.replace(/\W+/g, "-") + "_" + new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-") + ".png";
   d.innerHTML = '<img alt="' + esc(label) + ' result"><span>' + esc(label) + '</span><div class="row"><a download="' + name + '">Download</a><select aria-label="Save to a reference slot"><option value="">Save as…</option>' +
     SLOTS.map(([k, l]) => '<option value="' + k + '"' + (k === suggest ? " selected" : "") + ">" + esc(l) + "</option>").join("") + "</select></div>";
-  d.querySelector("img").src = url; d.querySelector("a").href = url;
+  d.querySelector("img").src = url;
+  const a = d.querySelector("a"); a.href = url;
+  a.addEventListener("click", e => {
+    if (!DL) return;
+    e.preventDefault();
+    fetch(url).then(r => r.blob()).then(blob => DL.save({ filename: name, data: blob }))
+      .catch(err => { if (err && err.code !== "declined") say("Couldn't save: " + errText(err), true); });
+  });
   const sel = d.querySelector("select");
   if (suggest) { const b = document.createElement("button"); b.type = "button"; b.className = "mini"; b.textContent = "Use as " + SLOT_NAME[suggest]; b.addEventListener("click", () => { setSlot(suggest, url); b.textContent = "Saved"; b.classList.add("done"); }); d.querySelector(".row").appendChild(b); sel.value = ""; }
   sel.addEventListener("change", () => { if (sel.value) { setSlot(sel.value, url); say("Saved to " + SLOT_NAME[sel.value] + "."); sel.value = ""; } });
