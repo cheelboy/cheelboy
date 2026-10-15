@@ -41,6 +41,25 @@ Nano Banana Pro (Gemini 3 Pro Image) and Nano Banana 2. The first character is
 7. **Fixes.** F1–F9, covering face drift, age, logos, mechanic look, body, leaked
    reference clothes, the mole, wrong product labels and a pasted-on look.
 
+## Generating images automatically
+
+`tools/generate.mjs` sends the kit's prompts to Google's Gemini image models (Nano Banana)
+and saves the results to `generated/`. It needs a Gemini API key from Google AI Studio in
+the `GEMINI_API_KEY` environment variable.
+
+```bash
+npm install
+npm run generate -- models            # image models your key can use
+npm run generate -- ref-a --n 4       # 4 master-portrait candidates
+npm run generate -- pick 2            # keep candidate 2 as refs/refA.png
+npm run generate -- refs              # Ref B, C, D from refs/refA.png
+npm run generate -- social S1 S2 S4   # scenes with Ref A, B, C attached
+```
+
+- **Choose a model with `--model`.** The default is `gemini-3-pro-image-preview` (Nano Banana
+  Pro); `gemini-2.5-flash-image` is cheaper.
+- **Preview first.** Add `--dry-run` to see each request without sending it.
+
 ## Variety at a glance
 
 150 camera angles per set-up and about 54,500 visibly different set-ups across the four
