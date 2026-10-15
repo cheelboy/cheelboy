@@ -10,7 +10,11 @@ Nano Banana Pro (Gemini 3 Pro Image) and Nano Banana 2. The first character is
 | --- | --- |
 | `inaya-prompt-kit.html` | The kit. Open it in a browser (it works on a phone), set the options, tap **Copy prompt** and paste into Nano Banana. |
 | `docs/PLAN.md` | The content plan: roadmap, variety maths, content pillars, PPF review series, capture guide for real places and products, QA, video, disclosure. |
-| `.claude/skills/nano-banana-pro-prompting/SKILL.md` | The prompting rules every prompt follows, with a review checklist. Claude Code loads it when prompts are added or edited. |
+| `docs/STRATEGY.md` | Long-term plan: positioning, the "Bijli Diaries" storyline, growth stages, how she earns, risks, first 12 months. |
+| `tests/kit.test.mjs` | Browser test of every card and builder combination. Run `npm install` once, then `npm test`. |
+| `.claude/skills/nano-banana-pro-prompting/` | The prompting rules every image prompt follows. |
+| `.claude/skills/inaya-brand-voice/` | Her character bible, English and Urdu caption voice, story arcs, weekly rhythm, disclosure rules. |
+| `.claude/skills/steward/` | How the repo is managed on GitHub: branches, commits, checks before every push, PRs, publishing. |
 
 ## Kit sections
 
