@@ -1,50 +1,44 @@
 ---
 name: inaya-brand-voice
-description: Inaya's character bible, voice and content-planning playbook. Covers her backstory, personality, English and Roman Urdu caption style, hooks, hashtags, story arcs, the weekly rhythm, the Pakistani calendar, brand-safety and disclosure rules. Use whenever you write or review captions, Reel scripts, story arcs, a day, week or month content plan, campaign ideas, partner pitches or media-kit copy for Inaya, or add caption and story data to the kit.
+description: Inaya's character, voice and content-planning playbook. Covers who she is, English and Roman Urdu caption style, hooks, hashtags, Reel scripts, the weekly rhythm, detailing-studio gigs, the Pakistani calendar, brand-safety and disclosure rules. Use whenever you write or review captions, Reel scripts, a day, week or month content plan, studio gig content, partner pitches or media-kit copy for Inaya, or add caption and planning data to the kit.
 ---
 
 # Inaya: brand voice and content playbook
 
 ## 1. Who she is
 
-These are the canon facts. Change them only with the owner, and never contradict them in
-content.
+Keep it simple. She is one person living an ordinary, stylish life. There is no cast of
+side characters and no backstory to maintain.
 
 - **Inaya**, 25, from Karachi (DHA). An AI character, open about it.
-- **Day job:** works in design. That explains her eye for fashion, composition and finish.
-- **Why cars:** she grew up around her father's white 1990s Japanese sports coupe with pop-up
-  headlights. It has sat under a cover for years. She calls it **Bijli** ("lightning").
-- **Dream car:** a mid-engine supercar. It's a long-running "one day" motif, never a purchase.
-- **What she stands for:**
-  - Girls belong in car culture.
-  - Care for what you love.
-  - Honest, simple car-care advice without the jargon.
-- **Recurring cast:**
-  - **Zara**, her best friend. Not a car person, so she's the one who asks the questions
-    viewers are thinking. Usually seen from behind or out of focus until she has her own
-    references.
-  - **Ustad ji**, the installer at the partner studio. Face never shown; known by his
-    hands, his squeegee and his one-liners.
-  - **Bijli**, the coupe. Treat it like a character.
-- **Look and energy:** the kit's DNA and PERSONA modules. Fashion-model polish, a car
-  enthusiast's heart, never a mechanic.
+- **Her life on the feed:**
+  - Going out around the city: cafés, food streets, the seafront, malls, rooftops, bookshops.
+  - Selfies and small moments in her everyday car.
+- **Her car:** a white Honda Civic sedan (a Toyota Corolla works too; pick one and keep
+  it). It's just her daily car, never a storyline.
+- **She loves cars.** Because of that, **detailing and PPF studios hire her as an influencer**
+  for paid gigs. She visits, looks at the work, and shares what she sees. Supercars appear
+  only as customer cars at studios, or at car meets and auto shows. They're never hers.
+- **Look and energy:** the kit's DNA and PERSONA modules. Fashion-model polish, warm and
+  playful, never a mechanic.
+- **Other people:** strangers and studio staff are background extras, faces soft or turned
+  away. No named friends, family or recurring characters.
 
 ## 2. Voice
 
-- **Confident, warm, playful, a little teasing.** She sounds like a friend who knows cars,
-  not a salesperson and not a lecturer.
-- **Short lines.** One idea per line. White space is part of the voice.
+- **Confident, warm, playful, a little teasing.** She sounds like a friend, not a
+  salesperson or a lecturer.
+- **Short lines.** One idea per line.
 - **She reacts before she explains:** "uff", "yaar", "honestly".
-- **She's specific:** "matte on red" rather than "this finish".
-- **Emojis:** 0–3 per caption, from a small set: 🔥 ✨ 🌊 ☕ 📌 🏁 😮‍💨 🤍. Never a row of them.
-- **Never:** crude slang, insults, politics, religious debate, or punching down at other
-  creators, brands or car owners.
+- **She's specific:** "the corner table by the window", "matte on red".
+- **Emojis:** 0–3 per caption, from a small set: ☕ ✨ 🌊 🌙 📌 🔥 😮‍💨 🤍.
+- **Never:** crude slang, insults, politics, religious debate, or punching down at anyone.
 
 ### English and Urdu mix
 
-- Write Urdu in **Roman script** (Latin letters), not Urdu script, so it's quick to read and search.
-- Aim for roughly half and half. **Feelings, humour and asides in Urdu; technical terms and
-  facts in English** (PPF, ceramic coating, self-healing, warranty, mil thickness).
+- Write Urdu in **Roman script** (Latin letters), not Urdu script.
+- Aim for roughly half and half. **Feelings, humour and asides in Urdu; facts and technical
+  terms in English** (PPF, ceramic coating, self-healing, warranty).
 - One consistent spelling for common words:
 
 | Use | Not |
@@ -61,150 +55,145 @@ content.
 | bas | — |
 | thora, thori | thoda |
 
-- Lines can switch language mid-sentence ("Honestly, matte ka vibe hi alag hai"), but a
+- Lines can switch language mid-sentence ("Honestly, is café ka vibe hi alag hai"), but a
   line is never so mixed that neither group can follow it.
 
 ## 3. Captions
 
 **Structure**
-1. **Hook:** line 1, at most 8 words. It decides whether people tap "more".
-2. **Body:** 1–3 short lines, with one fact, one feeling or one moment.
-3. **Call to action:** a question or an ask (comment, save, share, vote).
+1. **Hook:** line 1, at most 8 words.
+2. **Body:** 1–3 short lines: a moment, a feeling or one fact.
+3. **Call to action:** a question or an ask (comment, save, share).
 4. **Hashtags:** 3–8, on their own line.
-5. **Disclosure:** where needed (section 8).
+5. **Disclosure:** for gigs (section 7).
 
 **Hooks that fit her**
+- "Aaj ka plan: koi plan nahi. ☕"
+- "Karachi ki shaam, aur kya chahiye?"
+- "Parking mein selfie ka apna maza hai."
+- "Is café ka corner table mera hai ab."
 - "Gloss ya matte? Choose wisely."
+- "Studio visit: yeh finish dekho zara 👀"
 - "PPF lagwane se pehle yeh zaroor poochna 👇"
-- "Karachi ki garmi vs black paint."
-- "Bijli update: aaj bara din hai."
-- "Ustad ji ne kaha 'trust the process' 😮‍💨"
-- "Myth ya fact: PPF peeli ho jati hai?"
-- "Sunday plans? Bas sea view aur yeh."
 
 **Hashtags.** Mix three tiers and rotate them. Test, and keep what brings reach.
-- Niche: #PPFPakistan #CarDetailingPakistan #CeramicCoating #PaintProtectionFilm
-- Community: #KarachiCars #CarGirl #CarCulturePakistan #JDM (when Bijli is in shot)
-- Broad: #Karachi #CarsOfInstagram #Pakistan
-- Always one owned tag: **#InayaDrives**. A season tag when one is running: **#BijliDiaries**.
+- Lifestyle: #KarachiDiaries #KarachiCafes #CafeHopping #OOTD
+- Cars and gigs: #CarGirl #KarachiCars #CarDetailingPakistan #PPFPakistan
+- Broad: #Karachi #Pakistan
+- Always one owned tag: **#InayaInKarachi**.
 
 **Examples**
 
-> Gloss ya matte? Choose wisely. 🔥
-> Same red, two finishes, aur honestly dono ka apna vibe hai.
-> Left: gloss PPF. Right: matte PPF. Comment karo: team gloss ya team matte?
-> #PPFPakistan #KarachiCars #CarGirl #InayaDrives
+> Aaj ka plan: koi plan nahi. ☕
+> Window seat, iced latte, aur thori si dhoop.
+> Aapka go-to café kaunsa hai Karachi mein?
+> #KarachiCafes #CafeHopping #KarachiDiaries #InayaInKarachi
 
-> PPF lagwane se pehle yeh zaroor poochna 👇
-> 1. Film kaunsi hai, aur kitni mil thick?
-> 2. Warranty kitne saal ki hai, aur kis cheez ko cover karti hai?
-> 3. Edges wrap honge ya cut?
-> Save kar lo, kaam aayega. 📌
-> #PaintProtectionFilm #CarDetailingPakistan #InayaDrives
+> Parking mein selfie ka apna maza hai. ✨
+> Quick coffee run, phir seedha kaam pe.
+> Morning person ya night owl?
+> #KarachiDiaries #CarGirl #InayaInKarachi
 
-> Bijli update: aaj bara din hai. ✨
-> Years ke baad cover utra. Thori dusty, thori tired, but still the most beautiful car I know.
-> Isko wapas zinda karna hai. Aap log saath ho?
-> #BijliDiaries #JDM #KarachiCars #InayaDrives
+> Karachi ki shaam, aur kya chahiye? 🌊
+> Sea breeze, bhutta, aur zero stress.
+> Sunset ya sunrise, aap kis team mein ho?
+> #Karachi #SeaView #KarachiDiaries #InayaInKarachi
 
-> Sunday plans? Bas sea view aur yeh. 🌊
-> No agenda, bas chai aur engine ki awaaz.
-> Aapka Sunday drive spot kaunsa hai?
-> #Karachi #SundayDrive #InayaDrives
+> Studio visit: yeh finish dekho zara 👀
+> @[studio] ne is car pe matte PPF lagayi hai, aur honestly gloss se zyada classy lag rahi hai.
+> Team gloss ya team matte?
+> #ad #PPFPakistan #CarDetailingPakistan #InayaInKarachi
 
 ## 4. Reel scripts
 
-- **Length:** 20–45 seconds, and one idea per Reel.
+- **Length:** 15–40 seconds, and one idea per Reel.
 - **Beats:**
   - **Hook (0–2 s):** say it and show it at the same time.
-  - **Setup (to 8 s):** the question.
-  - **Payoff:** 2–3 quick points, each cut to a B-roll still.
-  - **Verdict:** her opinion in one line.
+  - **Moment or question.**
+  - **Payoff:** 2–3 quick points or shots.
+  - **One-line verdict or feeling.**
   - **Call to action.**
-- Write the script as spoken lines in the same English–Urdu mix, each with its B-roll shot
-  code from the kit (R1–R5, builder review actions).
-- On-screen text repeats the hook and the key facts, because most people watch muted.
+- Write the script as spoken lines in the same English–Urdu mix, each with its shot code
+  from the kit.
+- On-screen text repeats the hook, because most people watch muted.
 
-## 5. Story arcs and rhythm
+## 5. What to post
 
-**Season arc (about 12 weeks):** a goal with weekly episodes. **Season 1 is "Bijli Diaries"**,
-the restoration of her father's coupe (episode list in `docs/STRATEGY.md`). Every episode is
-a natural slot for a partner studio or brand.
+**Content mix (a normal week)**
 
-**Monthly mini-arcs:**
-- A road trip north
-- Ramadan nights
-- Monsoon prep (ceramic coating, wipers, tyres)
-- Wedding-season looks
-- Auto show visit
-
-**Weekly rhythm**
-
-| Day | Series | Format |
+| Share | Pillar | Examples |
 | --- | --- | --- |
-| Mon | Myth ya Fact | Carousel or Reel |
-| Tue | Lifestyle | Scene |
-| Wed | Bijli Diaries / Studio Visit | Review set |
-| Thu | Ask Inaya (answers from comments) | Talking head |
-| Fri | Night out / car meet | Scene |
-| Sat | Gloss ya Matte (polls, comparisons) | Review or Stories poll |
-| Sun | Sunday Drive | Scene + selfie |
+| About 60% | Going out | Cafés, food streets, seafront, malls, rooftops, bookshops, parks |
+| About 25% | In and around her car | Driver's-seat selfies (parked), coffee runs, parking-lot outfit shots |
+| About 15% | Studio gigs and car events | Paid detailing and PPF studio visits, car meets, auto shows |
 
-**Stories, daily (3–5):** morning selfie or coffee, a moment from the day's post, a poll or
-question box, and an evening wind-down. The outfit stays the same within a day unless
-the story gives a reason, like going out at night.
+**Weekly rhythm (flexible)**
+
+| Day | Idea |
+| --- | --- |
+| Mon | Coffee run selfie in her car |
+| Tue | Café or workspace moment |
+| Wed | Studio gig when booked, otherwise an outfit post |
+| Thu | Food street or dinner out |
+| Fri | Night out: rooftop, seafront |
+| Sat | Day out: mall, bookshop, beach |
+| Sun | Slow day: café, drive, sunset |
+
+**Stories, daily (2–4):** a morning moment, where she is right now, a poll or question
+box, and an evening wind-down.
 
 **Continuity rules**
-- Time of day matches the light.
-- Weather matches the season.
-- No place repeats within 7 days, and no outfit within 5 days, except signature pieces.
-- Story beats go forward, never backwards. Bijli doesn't go dusty again after the wash
-  episode.
+- One outfit per day, unless she goes out in the evening.
+- Time of day matches the light, and weather matches the season.
+- The same place doesn't repeat within 7 days, and an outfit not within 5 days.
+- Her own car is always the same model and colour.
 
-## 6. Pakistani calendar anchors
+## 6. Studio gigs
 
-- **Ramadan:** respectful, calm content (sehri drives, iftar plans), no party scenes.
-  **Eid ul Fitr** and **Eid ul Adha:** festive outfit (W10), family drives. Dates move each
-  year, so check them.
-- **23 March and 14 August:** green and white looks, national pride, nothing political.
-- **Monsoon (July–September):** rain-protection content.
-- **Winter (December–February):** trips north. **Wedding season (November–February):** formal looks.
-- **Auto shows and car meets:** check the dates each year.
+- Framed honestly as what they are: a studio invited her. "Aaj @[studio] pe thi…"
+- **She looks, reacts and asks; staff do the work.** She never installs or holds tools.
+- **Shots per gig:** arrival, the car being worked on (staff faces hidden), close-up of
+  the finish, her reaction, a product shot if the studio wants one, and a talking-head
+  verdict. The kit's review presets cover each one.
+- **Product facts come from the studio or the brand, and are attributed:** "Studio ke
+  mutabiq…" ("according to the studio"), "[Brand] kehta hai…" ("[Brand] says…").
 
-## 7. Safety on screen
+## 7. Honesty and disclosure
 
-- Driving shots: seatbelt on, hands on the wheel, eyes on the road. Phone, selfie and
-  talking-to-camera shots only with the car parked.
-- No speeding, street racing, drifting on public roads, or stunts.
-- No alcohol or smoking.
-
-## 8. Honesty and disclosure
-
-- **Bio:** says she's an AI character, for example "AI character · Karachi · cars, coffee, care".
+- **Bio:** says she's an AI character, for example "AI character · Karachi · cafés, cars, chaos".
 - **Platform AI labels:** on for every post where the platform offers one.
-- **Paid posts:** use the platform's paid-partnership label, plus #ad or #sponsored. Never
-  imply a partnership that doesn't exist.
-- **Product claims:** come from the brand's spec sheet or the partner installer, and are
-  attributed: "STEK ke mutabiq…" ("according to STEK"), "Ustad ji ne dikhaya…" ("Ustad ji
-  showed me…").
-  - Inaya can react to how something looks on camera.
-  - She never claims long-term personal use or test results she couldn't have.
-- **Comparisons:** fair and checkable. No knocking a competitor by name.
+- **Gigs and paid posts:** the platform's paid-partnership label, plus #ad. Never imply a
+  partnership that doesn't exist.
+- **Product claims:** she never claims long-term personal use or test results she
+  couldn't have.
 
-## 9. Planning a week or month
+## 8. Safety on screen
 
-1. Pick or continue the **season arc** and this week's beat.
-2. Drop in **calendar anchors** and any **partner commitments**.
-3. Fill the **weekly rhythm** slots, then the daily stories.
-4. For each post, record: date, slot, series, arc beat, kit settings (format, place, car,
-   outfit, action, framing, light), caption, hashtags, posting time and status.
-5. Check the plan against the continuity rules and repeats, then against sections 7 and 8.
+- Car selfies and talking to camera only with the car parked. Driving shots: seatbelt
+  on, eyes on the road.
+- No speeding, racing or stunts. No alcohol or smoking.
 
-## 10. Review checklist
+## 9. Pakistani calendar
+
+- **Ramadan:** calm content (sehri and iftar outings), no party scenes.
+  **Eid ul Fitr and Eid ul Adha:** festive outfits. Dates move each year, so check them.
+- **23 March and 14 August:** green and white looks, nothing political.
+- **Monsoon (July–September):** rainy café days.
+- **Winter (December–February):** warm layers. **Wedding season (November–February):** formal looks.
+
+## 10. Planning a week
+
+1. Drop in calendar dates and any booked studio gigs.
+2. Fill the remaining days from the content mix and weekly rhythm.
+3. For each post, record: date, slot, pillar, kit settings (format, place, car, outfit,
+   action, framing, light), caption, hashtags, posting time and status.
+4. Check against the continuity rules, then sections 7 and 8.
+
+## 11. Review checklist
 
 1. The hook works on its own, in 8 words or fewer.
 2. The language mix and spellings follow section 2.
-3. One idea, one call to action, 3–8 hashtags including #InayaDrives.
-4. Facts are attributed; there are no first-hand product claims.
-5. Disclosure is present when the post is paid. The AI label is on.
-6. Nothing breaks canon, continuity or the safety rules.
+3. One idea, one call to action, 3–8 hashtags including #InayaInKarachi.
+4. No named side characters and no car storyline.
+5. Gig posts are disclosed, and facts are attributed.
+6. The safety rules hold.

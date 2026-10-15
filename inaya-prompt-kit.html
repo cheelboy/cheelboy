@@ -110,7 +110,7 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
     <a href="#refs">2 · References</a>
     <a href="#builder">3 · Builder</a>
     <a href="#scenes">4 · Scenes</a>
-    <a href="#reviews">5 · Reviews &amp; places</a>
+    <a href="#reviews">5 · Studio gigs</a>
     <a href="#video">6 · Video frames</a>
     <a href="#fixes">Fixes</a>
     <a href="#modules">Modules</a>
@@ -122,8 +122,8 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
       <li><div><b>Master portrait (Ref A).</b> Run the master prompt 6–10 times with no image attached. Keep the one face you'd use for years: clear skin, no mole. If you already have a Ref A with the old beauty mark, clean it with fix F7 instead.</div></li>
       <li><div><b>Reference set.</b> Attach Ref A and make the face turnaround (Ref B), full-body proportion sheet (Ref C) and expression sheet (Ref D). All of them use plain white clothes, so you judge her face and body rather than an outfit.</div></li>
       <li><div><b>Shot builder.</b> Pick a format (scene, selfie, product review, talking head), then place, car, outfit, action and camera. It writes the prompt and numbers the images to attach. Ref A, B and C always come first, in that order.</div></li>
-      <li><div><b>Scenes.</b> Ready-made hero scenes. The prompts tell the model to ignore the white reference clothes; if they leak through anyway, use fix F6.</div></li>
-      <li><div><b>Reviews &amp; real places.</b> PPF, coating and tint review shots, plus prompts that put her into a photo of a real studio or put a real product in her hands.</div></li>
+      <li><div><b>Scenes.</b> Ready-made everyday scenes: cafés, her car, the seafront, food streets, plus a studio-gig arrival and car events. The prompts tell the model to ignore the white reference clothes; if they leak through anyway, use fix F6.</div></li>
+      <li><div><b>Studio gigs.</b> Shots for a paid studio visit, plus prompts that put her into a photo of the real studio or a real product in her hands.</div></li>
       <li><div><b>Video frames.</b> Generate anchor frames for your lip-sync or image-to-video tool. Every ratio here is one the app offers: 16:9, 4:3, 1:1, 3:4 or 9:16.</div></li>
     </ol>
   </section>
@@ -175,8 +175,8 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
   </section>
 
   <section id="reviews">
-    <h2>Phase 5 · Reviews &amp; real places</h2>
-    <p class="sec-note">Product review shots for PPF, ceramic coating and tint, plus edits that put her into a photo of a real studio or swap a real product into her hands. She presents and judges the work; an installer does the hands-on part. Attach a clean product photo so the packaging and label come out right, and use a real place's photos only with the owner's permission.</p>
+    <h2>Phase 5 · Studio gigs &amp; real places</h2>
+    <p class="sec-note">For paid gigs: detailing and PPF studios invite her to see their work. These are the shots for a visit, plus edits that put her into a photo of the real studio or a real product in her hands. She looks, reacts and asks; staff do the hands-on part. The cars here are customers' cars, never hers. Attach a clean product photo so the packaging and label come out right, and use a real place's photos only with the owner's permission.</p>
     <div class="cards" data-group="reviews"></div>
   </section>
 
@@ -209,7 +209,7 @@ const M = {
   WHITE_TOP: "She wears a fitted plain white crew-neck tee in thick, opaque matte cotton, with no print, logo or pattern.",
   WHITE_FULL: "She wears plain white fitted reference clothing: a fitted short-sleeve crew-neck tee in thick, opaque matte cotton, tucked into fitted high-waisted white ankle-length leggings in the same opaque fabric, and she is barefoot. Nothing is printed, branded or patterned. The clothes follow her body without adding volume, so her shoulders, bust, waist, hips and legs read clearly.",
   BODY: "Curvy, toned hourglass figure with a full bust, a defined waist and long legs, about 5'7\" tall, with graceful, confident posture.",
-  PERSONA: "Her energy is confident, warm and playful: soft closed-lip smiles, a gentle head tilt and a knowing look at the camera. She is a true supercar enthusiast who looks like a fashion model, never like a mechanic.",
+  PERSONA: "Her energy is confident, warm and playful: soft closed-lip smiles, a gentle head tilt and a knowing look at the camera. She loves cars and car culture, and looks like a fashion model, never like a mechanic.",
   STYLE: "Photorealistic editorial photograph shot on a full-frame camera. Natural, unretouched skin texture with visible pores, true-to-life skin tone, realistic hair with individual strands and natural flyaways, accurate anatomy and natural hands with five fingers, subtle film grain, high dynamic range, sharp focus on her eyes.",
   AVOID: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model, with empty hands or only the props described. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, readable number plates, grease, overalls or tools.",
   AVOID_REVIEW: "Every car is clean and unbadged, and her clothes are clean and styled: she is a car enthusiast dressed like a fashion model who presents and judges the work, while any installer does the hands-on part. Her appearance stays exactly as in the reference images. No text, logos, watermarks, car badges, readable number plates, grease or overalls.",
@@ -232,6 +232,8 @@ const W = {
   W12: ["Racing jacket", "She wears a vintage-style cream and dark-green racing jacket with contrast stripes and no readable text or logos, over a white tee and light-wash straight-leg jeans, with white sneakers."]
 };
 const CAR = {
+  CIVIC: "a white Honda Civic sedan of the current generation, badges removed",
+  COROLLA: "a silver Toyota Corolla sedan of the current generation, badges removed",
   CAR1: "a matte-grey mid-engine supercar with sharp angular lines and scissor doors, badges removed",
   CAR2: "a deep racing-green front-engine grand tourer with a long bonnet and chrome details, badges removed",
   CAR3: "a white track-focused coupe with a large carbon-fiber rear wing, badges removed",
@@ -241,7 +243,7 @@ const CAR = {
   CAR7: "a dark-blue sports sedan with quad exhaust tips and bronze wheels, badges removed",
   CAR8: "a white 1990s Japanese sports coupe with pop-up headlights, badges removed"
 };
-const CAR_LABEL = { CAR1: "Matte-grey supercar", CAR2: "Racing-green GT", CAR3: "White track coupe", CAR4: "Satin-black hypercar", CAR5: "Pearl-white SUV", CAR6: "Red V12 coupe", CAR7: "Dark-blue sports sedan", CAR8: "White 90s JDM coupe" };
+const CAR_LABEL = { CIVIC: "Her white Civic", COROLLA: "Silver Corolla", CAR1: "Matte-grey supercar", CAR2: "Racing-green GT", CAR3: "White track coupe", CAR4: "Satin-black hypercar", CAR5: "Pearl-white SUV", CAR6: "Red V12 coupe", CAR7: "Dark-blue sports sedan", CAR8: "White 90s JDM coupe" };
 const C = {
   C1: "Close-up portrait, head and shoulders, 85mm lens at f/1.8, eye level, eyes tack sharp, shallow depth of field.",
   C2: "Medium shot from the waist up, 50mm lens at f/2, eye level.",
@@ -335,55 +337,55 @@ const P = [
       M.STYLE, ar("9:16")],
     tip: "Make one per outfit you'll reuse, then attach it as an extra image when a series needs the same outfit." },
 
-  { g: "scenes", code: "S1", title: "Garage hero, full body", ratio: "3:4", attach: ATT_ABC, outfit: "W1",
+  { g: "scenes", code: "S1", title: "Café window seat", ratio: "3:4", attach: ATT_ABC, outfit: "W3",
     build: o => [M.REF, W[o][1],
-      "She leans casually against the front fender of " + CAR.CAR1 + ", scissor doors raised, inside a minimalist private garage: polished dark concrete floor, matte black walls, two more cars under fitted covers softly blurred behind her. One hand rests lightly on the car, the other on her hip, and she looks straight into the lens with a confident half-smile.",
-      C.C3, L.L2, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S2", title: "Garage detail, the enthusiast moment", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
-    build: o => [M.REF, W[o][1],
-      "She crouches gracefully beside the rear wheel of " + CAR.CAR4 + " in a minimalist private garage, fingertips tracing a spoke of the forged wheel as she admires the orange brake caliper. She glances up over her shoulder at the camera with a delighted smile, as if sharing a favorite detail. Her outfit is spotless.",
-      C.C6, L.L2, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S3", title: "Cockpit", ratio: "3:4", attach: ATT_ABC, outfit: "W2",
-    build: o => [M.REF, W[o][1],
-      "She sits in the driver's seat of " + CAR.CAR4 + " with the door open, both hands resting lightly on the alcantara steering wheel, body turned toward the camera through the open door, smiling playfully into the lens. Carbon fiber, quilted leather and red contrast stitching visible around her.",
-      "Shot from outside the car at seat height, 35mm lens at f/2.", L.L2, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S4", title: "Influencer to camera, key fob", ratio: "9:16", attach: ATT_ABC, outfit: "W2",
-    build: o => [M.REF, W[o][1],
-      "She stands in front of the nose of " + CAR.CAR1 + " in a minimalist private garage, holding a car key fob up beside her face at shoulder height, eyebrows lifted and lips parted mid-sentence, eyes locked on the lens, like an influencer revealing something exciting to her followers.",
-      C.C2, L.L2, M.STYLE, M.AVOID, ar("9:16")] },
-  { g: "scenes", code: "S5", title: "Selfie POV", ratio: "9:16", attach: ATT_ABC, outfit: "W6",
-    build: o => [M.REF, W[o][1],
-      "She takes a casual selfie in a clean underground parking garage, smiling with her head slightly tilted, while " + CAR.CAR3 + " fills the background over her shoulder.",
-      C.C5 + " Overhead fluorescent light with a soft glow on her face. Natural phone-photo look, not overly polished.",
-      M.AVOID, ar("9:16")] },
-  { g: "scenes", code: "S6", title: "Café lifestyle", ratio: "3:4", attach: ATT_ABC, outfit: "W3",
-    build: o => [M.REF, W[o][1],
-      "She sits at an outdoor café table on a tree-lined street with an iced latte and a supercar key fob on the marble table, mid-laugh as she glances at the camera. " + cap(CAR.CAR2) + " is parked at the curb behind her in soft focus.",
+      "She sits at a window table in a bright, minimal café in Karachi, an iced latte in front of her, chin resting lightly on one hand, smiling softly at the camera. Warm wood, white walls and plants are softly blurred behind her.",
       C.C2, L.L5, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S7", title: "Golden-hour coastal highway", ratio: "16:9", attach: ATT_ABC, outfit: "W1",
+  { g: "scenes", code: "S2", title: "Coffee-run selfie in her car", ratio: "9:16", attach: ATT_ABC, outfit: "W6",
     build: o => [M.REF, W[o][1],
-      "She stands beside " + CAR.CAR2 + " on an empty coastal highway along the Arabian Sea, waves breaking on the rocks below, sunglasses in one hand, a light breeze lifting her hair, looking at the camera with a calm, confident smile.",
-      C.C4, L.L3, M.STYLE, M.AVOID, ar("16:9")] },
-  { g: "scenes", code: "S8", title: "Karachi seaside at blue hour", ratio: "3:4", attach: ATT_ABC, outfit: "W5",
+      "She takes a selfie in the driver's seat of her parked " + CAR.CIVIC.replace("a ", "") + ", an iced coffee in her free hand, smiling with her head slightly tilted. The phone itself is out of frame, and morning light comes through the side window.",
+      C.C5, M.STYLE_PHONE, M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S3", title: "Outside the café with her car", ratio: "3:4", attach: ATT_ABC, outfit: "W11",
     build: o => [M.REF, W[o][1],
-      "She stands beside " + CAR.CAR4 + " on a seaside promenade road in Karachi at blue hour, the Arabian Sea and glowing city lights behind her, one hand on the car's roofline, looking over her shoulder into the lens.",
-      C.C3, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S9", title: "Night car meet", ratio: "3:4", attach: ATT_ABC, outfit: "W5",
-    build: o => [M.REF, W[o][1],
-      "She walks toward the camera along a row of glossy supercars on a rooftop car park at night, a crowd of enthusiasts softly blurred behind her, the city skyline glowing. Mid-stride, relaxed, eyes on the lens.",
-      C.C6, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S10", title: "Track day paddock", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
-    build: o => [M.REF, W[o][1],
-      "She stands in a race-track pit lane with a white open-face helmet tucked under one arm, " + CAR.CAR3 + " parked behind her and pit garages in soft focus. Bright overcast daylight. She smiles at the camera like she just finished a hot lap.",
-      C.C2, M.STYLE, M.AVOID, ar("3:4")] },
-  { g: "scenes", code: "S11", title: "Showroom walk", ratio: "9:16", attach: ATT_ABC, outfit: "W3",
-    build: o => [M.REF, W[o][1],
-      "She walks past a line of supercars in a bright white showroom with floor-to-ceiling glass, mid-stride, turning her head to smile at the camera.",
-      C.C3, L.L5, M.STYLE, M.AVOID, ar("9:16")] },
-  { g: "scenes", code: "S12", title: "DHA café drive-up", ratio: "3:4", attach: ATT_ABC, outfit: "W3",
-    build: o => [M.REF, W[o][1],
-      "She steps out of " + CAR.CAR1 + " with the scissor door raised, parked outside a modern café with a white facade and potted palms on a leafy DHA street in Karachi. One sneaker is on the pavement and she glances back at the camera with an easy smile. Warm late-afternoon light.",
+      "She stands beside her " + CAR.CIVIC.replace("a ", "") + ", parked on a leafy DHA street outside a café with a white facade and potted palms. Car keys in one hand, she glances back at the camera with an easy smile.",
       C.C3, L.L3, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S4", title: "Seafront at sunset", ratio: "3:4", attach: ATT_ABC, outfit: "W2",
+    build: o => [M.REF, W[o][1],
+      "She walks along the seaside promenade in Karachi at sunset, the Arabian Sea behind her and a light breeze lifting her hair, laughing as she looks at the camera.",
+      C.C4, L.L3, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S5", title: "Food street at night", ratio: "3:4", attach: ATT_ABC, outfit: "W9",
+    build: o => [M.REF, W[o][1],
+      "She stands on a busy food street at night holding a fresh paratha roll wrapped in paper, string lights overhead and grills smoking behind her, people at tables softly blurred. She grins at the camera, about to take a bite.",
+      C.C2, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S6", title: "Mall day", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
+    build: o => [M.REF, W[o][1],
+      "She walks through a bright, modern mall atrium with two paper shopping bags in one hand, mid-stride, glancing at the camera with a playful smile. Shoppers are softly blurred around her.",
+      C.C3, L.L5, M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S7", title: "Rooftop dinner", ratio: "3:4", attach: ATT_ABC, outfit: "W5",
+    build: o => [M.REF, W[o][1],
+      "She sits at a rooftop restaurant table at night, a candle and a glass of fresh lime soda in front of her, fairy lights overhead and the city skyline glowing behind her. Chin resting on her hand, she smiles at the camera.",
+      C.C2, "Blue hour: a deep blue sky, warm city lights, candlelight and a soft key light on her face.", M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S8", title: "Bookshop", ratio: "3:4", attach: ATT_ABC, outfit: "W7",
+    build: o => [M.REF, W[o][1],
+      "She browses in a cosy independent bookshop with tall wooden shelves, holding an open book, and looks up at the camera with a soft smile.",
+      C.C2, "Warm lamp light mixed with soft daylight from the shop window.", M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S9", title: "Mirror selfie at home", ratio: "9:16", attach: ATT_ABC, outfit: "W8",
+    build: o => [M.REF, W[o][1],
+      "She takes a mirror selfie in a full-length mirror in her bright, minimal bedroom with white bedding and a few plants. She holds her phone in a plain case at chest height so it covers none of her face, and the mirror shows her whole outfit.",
+      L.L5, M.STYLE_PHONE, M.AVOID, ar("9:16")] },
+  { g: "scenes", code: "S10", title: "Studio gig: arrival", ratio: "3:4", attach: ATT_ABC, outfit: "W11",
+    build: o => [M.REF, W[o][1],
+      "She arrives for a visit at a high-end car detailing studio, walking in past " + CAR.CAR6 + " under a hexagonal LED ceiling grid. Studio staff in plain black uniforms are softly blurred in the background with their faces turned away. She smiles at the camera, excited to see the work.",
+      C.C3, "Bright, even white light from the hexagonal LED ceiling grid, reflecting as a crisp honeycomb pattern in the paint.", M.STYLE, M.AVOID_REVIEW, ar("3:4")],
+    tip: "The first frame of a studio gig. Follow it with the Studio gigs presets below." },
+  { g: "scenes", code: "S11", title: "Night car meet", ratio: "3:4", attach: ATT_ABC, outfit: "W9",
+    build: o => [M.REF, W[o][1],
+      "She walks along a row of glossy supercars at a night car meet on a rooftop car park, a crowd of enthusiasts softly blurred and the city skyline glowing. Mid-stride, relaxed, eyes on the lens.",
+      C.C6, L.L4, M.STYLE, M.AVOID, ar("3:4")] },
+  { g: "scenes", code: "S12", title: "Auto show visit", ratio: "3:4", attach: ATT_ABC, outfit: "W4",
+    build: o => [M.REF, W[o][1],
+      "She visits an auto-show stand in a large exhibition hall, standing beside " + CAR.CAR3 + " on a raised platform. Visitors are softly blurred around her; she admires the car and glances at the camera.",
+      C.C2, "Bright, even show lighting with glossy reflections on the car.", M.STYLE, M.AVOID, ar("3:4")] },
 
   { g: "reviews", code: "R1", title: "Product hero, detailing studio", ratio: "3:4", attach: ATT_ABC + ", product photo (Image 4)", outfit: "W11",
     build: o => [
@@ -435,26 +437,26 @@ const P = [
   { g: "reviews", code: "PR1", title: "Swap in a real product (edit)", ratio: "same", attach: "Ref A (Image 1), the photo of her to edit (Image 2), product photo (Image 3)",
     build: () => ["Edit Image 2. Keep everything identical, including her face matching Image 1, her pose, outfit, background and lighting. Only replace the product she is holding with the product in Image 3, reproduced exactly, including its packaging, colours, label layout and printed text, at a realistic size, with her fingers wrapped naturally around it and the lighting on it matched to the scene."] },
 
-  { g: "video", code: "V1", title: "Talking head for Reels and Shorts", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
+  { g: "video", code: "V1", title: "In-car talking head", ratio: "9:16", attach: ATT_ABC, outfit: "W6",
     build: o => [M.REF, W[o][1], M.ANCHOR,
-      "Chest-up framing, centered, in a minimalist private garage with " + CAR.CAR1 + " softly out of focus behind her.",
-      "50mm lens at f/2, eye level. Soft frontal key light with gentle fill, cool LED strips glowing in the background.",
+      "She sits in the driver's seat of her parked " + CAR.CIVIC.replace("a ", "") + ", filmed from a phone mounted on the dashboard. Soft daylight through the windshield lights her face evenly.",
+      "Chest-up framing, centered, wide phone-lens look.", M.STYLE, M.AVOID, ar("9:16")] },
+  { g: "video", code: "V2", title: "Café talking head", ratio: "9:16", attach: ATT_ABC, outfit: "W3",
+    build: o => [M.REF, W[o][1], M.ANCHOR,
+      "She sits at a café table with an iced latte in front of her, the bright, minimal café softly out of focus behind her.",
+      "Chest-up framing, centered, 50mm lens at f/2, eye level. Soft window light from the front with gentle fill.",
       M.STYLE, M.AVOID, ar("9:16")] },
-  { g: "video", code: "V2", title: "Podcast desk for YouTube", ratio: "16:9", attach: ATT_ABC, outfit: "W3",
+  { g: "video", code: "V3", title: "Sit-down for YouTube", ratio: "16:9", attach: ATT_ABC, outfit: "W11",
     build: o => [M.REF, W[o][1], M.ANCHOR,
-      "She sits at a sleek dark wood desk with a podcast microphone on a boom arm angled to the side below her chin, a laptop and a small scale-model supercar on the desk. Behind her, through a glass wall, " + CAR.CAR4 + " is lit dramatically in a garage studio.",
-      "Waist-up framing, slightly off-center to the left, 35mm lens at f/2.8.",
+      "She sits on a cream sofa in a bright, minimal living room with plants and a shelf of books behind her, a small clip-on microphone on her top.",
+      "Waist-up framing, slightly off-center to the left, 35mm lens at f/2.8. Soft daylight from a large window with gentle fill.",
       M.STYLE, M.AVOID, ar("16:9")] },
-  { g: "video", code: "V3", title: "In-car vlog", ratio: "9:16", attach: ATT_ABC, outfit: "W2",
-    build: o => [M.REF, W[o][1], M.ANCHOR,
-      "She sits in the driver's seat of parked " + CAR.CAR2 + ", filmed from a phone mounted on the dashboard. Soft daylight through the windshield lights her face evenly, with the leather interior around her.",
-      "Chest-up framing, wide phone-lens look.", M.STYLE, M.AVOID, ar("9:16")] },
   { g: "video", code: "V4", title: "Walk-and-talk start frame", ratio: "9:16", attach: ATT_ABC, outfit: "W1",
     build: o => [M.REF, W[o][1],
-      "She stands in a minimalist private garage between two supercars, about to walk toward the camera, body facing the lens, arms relaxed, soft smile, eyes on the camera. Her face is fully visible and evenly lit.",
-      "Medium-full framing from the knees up, 35mm lens at f/2.8.", L.L2, M.STYLE, M.AVOID, ar("9:16")],
+      "She stands on a leafy DHA street lined with cafés, about to walk toward the camera, body facing the lens, arms relaxed, soft smile, eyes on the camera. Her face is fully visible and evenly lit.",
+      "Medium-full framing from the knees up, 35mm lens at f/2.8.", L.L3, M.STYLE, M.AVOID, ar("9:16")],
     tip: "For image-to-video tools that animate movement, not just lips." },
-  { g: "video", code: "V5", title: "Product review talking head", ratio: "9:16", attach: ATT_ABC + ", product photo (Image 4)", outfit: "W11",
+  { g: "video", code: "V5", title: "Studio gig talking head", ratio: "9:16", attach: ATT_ABC + ", product photo (Image 4)", outfit: "W11",
     build: o => [refText([X.product(4)]), W[o][1], M.ANCHOR,
       "Chest-up framing, centered, in a high-end car detailing studio with " + CAR.CAR6 + " softly out of focus behind her under a hexagonal LED ceiling grid. She holds the product low at chest height with the label facing the lens, well clear of her face.",
       productText(4, "[product name]"),
@@ -564,7 +566,16 @@ const B = {
     { k: "E2", g: "Events", label: "Track pit lane", light: "BL8", text: "in a race-track pit lane with pit garages in soft focus" },
     { k: "E3", g: "Events", label: "Auto show stand", light: "BL1", text: "on an auto-show stand in a large exhibition hall, the car on a raised platform under bright show lighting, visitors softly blurred" },
     { k: "F1", g: "Lifestyle", label: "Café window seat", light: "BL5", text: "inside a bright minimalist café at a window table, the car visible parked outside through the glass" },
-    { k: "F2", g: "Lifestyle", label: "Driver's seat", light: "BL5", car: true, text: "in the driver's seat of the car, the leather, carbon and stitching of the interior around her" }
+    { k: "F2", g: "Lifestyle", label: "Driver's seat (parked)", light: "BL5", car: true, text: "in the driver's seat of the parked car, its clean interior around her" },
+    { k: "F3", g: "Lifestyle", label: "Mall atrium", light: "BL5", text: "in a bright, modern shopping mall atrium with glass railings and soft daylight from a skylight, shoppers softly blurred" },
+    { k: "F4", g: "Lifestyle", label: "Food street at night", light: "BL4", text: "on a busy food street at night under string lights, grills smoking and people at tables softly blurred" },
+    { k: "F5", g: "Lifestyle", label: "Bookshop", light: "BL5", text: "in a cosy independent bookshop with tall wooden shelves and warm lamps" },
+    { k: "F6", g: "Lifestyle", label: "Beach at sunset", light: "BL3", text: "on a wide sandy beach in Karachi at sunset, gentle waves and a few distant figures" },
+    { k: "F7", g: "Lifestyle", label: "Rooftop restaurant", light: "BL9", text: "at a rooftop restaurant with fairy lights and candles on the tables, the city skyline glowing behind her" },
+    { k: "F8", g: "Lifestyle", label: "City park", light: "BL3", text: "in a green city park with palm trees and a walking track, a few joggers softly blurred" },
+    { k: "F9", g: "Lifestyle", label: "Home, bedroom mirror", light: "BL5", text: "in her bright, minimal bedroom with a full-length mirror, white bedding and a few plants" },
+    { k: "F10", g: "Lifestyle", label: "Co-working space", light: "BL5", text: "in a modern co-working space with a laptop on a wooden table and large windows" },
+    { k: "F11", g: "Lifestyle", label: "Coffee drive-through", light: "BL3", car: true, text: "in the car, stopped at a coffee drive-through window, a barista's hand passing an iced coffee through the window" }
   ],
   ACT: {
     scene: [
@@ -575,7 +586,11 @@ const B = {
       { k: "A5", label: "Admiring a wheel", car: true, text: "She crouches gracefully beside a front wheel of the car, fingertips tracing a spoke as she admires the brake caliper." },
       { k: "A6", label: "Arms crossed, confident", text: "She stands tall with her arms loosely crossed and her weight on one leg, owning the frame." },
       { k: "A7", label: "Candid laugh", text: "She is caught in a candid moment, laughing and tucking a strand of hair behind her ear." },
-      { k: "A8", label: "Sitting sideways in the seat", car: true, text: "She sits sideways in the driver's seat with the door open and her feet on the ground outside." }
+      { k: "A8", label: "Sitting sideways in the seat", car: true, text: "She sits sideways in the driver's seat with the door open and her feet on the ground outside." },
+      { k: "A9", label: "Coffee at a table", text: "She sits at a small table with an iced latte, the cup in both hands, looking up at the camera mid-sip." },
+      { k: "A10", label: "Shopping bags", text: "She walks with two paper shopping bags in one hand, glancing at the camera." },
+      { k: "A11", label: "Reading a book", text: "She leafs through a book, then looks up at the camera with a soft smile." },
+      { k: "A12", label: "Getting out of the car", car: true, text: "She steps out of the car, one foot on the ground, and glances back at the camera." }
     ],
     selfie: [
       { k: "S1", label: "Arm's-length front camera", text: "She takes a selfie at arm's length from a slightly high angle with her phone's front camera; the phone itself is out of frame." },
@@ -584,7 +599,9 @@ const B = {
       { k: "S4", label: "Driver's seat selfie", car: true, text: "She takes a selfie from the driver's seat of the parked car, the top of the steering wheel just visible at the bottom of the frame, daylight from the side window on her face." },
       { k: "S5", label: "Car over her shoulder", car: true, text: "She takes a selfie with the car filling the background over her shoulder, her head slightly tilted." },
       { k: "S6", label: "Phone on tripod, timer", text: "A casual full-length photo taken with her phone on a small tripod using the timer, framing slightly imperfect." },
-      { k: "S7", label: "Friend-taken candid", text: "A candid phone photo a friend took of her, slightly off-centre and caught mid-movement." }
+      { k: "S7", label: "Candid, taken by someone else", text: "A candid phone photo of her, slightly off-centre and caught mid-movement." },
+      { k: "S8", label: "Coffee in hand", text: "She takes a selfie at arm's length holding an iced coffee near her chin; the phone itself is out of frame." },
+      { k: "S9", label: "Outfit shot by the car", car: true, text: "A full-length phone photo of her standing beside the car in a parking lot, showing her whole outfit." }
     ],
     review: [
       { k: "R1", label: "Presenting the product", text: "She holds the product up beside her face at shoulder height, label facing the lens, presenting it to her followers." },
@@ -668,8 +685,8 @@ const RATIOS = ["3:4", "9:16", "1:1", "4:3", "16:9"];
 const FIELDS = [["loc", "Place"], ["car", "Car"], ["outfit", "Outfit"], ["act", "Action"], ["fin", "Finish"], ["size", "Framing"], ["height", "Camera height"], ["orient", "Body angle"], ["expr", "Expression"], ["light", "Light"], ["ratio", "Aspect ratio"]];
 const TOGGLES = [["place", "Real place photo"], ["product", "Product photo"], ["carPhoto", "Real car photo"], ["outRef", "Outfit ref"], ["hands", "Ref H (hands)"]];
 const TEXTS = [["placeName", "Place name (optional)", "e.g. a detailing studio in DHA Phase 6"], ["productName", "Product name (optional)", "e.g. the exact product name"], ["customCar", "Your own car (optional)", "e.g. a Shark Blue sports coupe, badges removed"]];
-const CARS = Object.keys(CAR).map(k => ({ k: k, label: CAR_LABEL[k], text: CAR[k] })).concat([{ k: "NONE", label: "No car", text: "" }]);
-const BDEF = { fmt: "scene", loc: "G1", car: "CAR1", outfit: "W1", act: "", fin: "F1", size: "Z5", height: "H1", orient: "O1", expr: "E1", light: "auto", ratio: "3:4",
+const CARS = Object.keys(CAR).map(k => ({ k: k, g: k === "CIVIC" || k === "COROLLA" ? "Everyday" : "Studio & event cars", label: CAR_LABEL[k], text: CAR[k] })).concat([{ k: "NONE", g: "Everyday", label: "No car", text: "" }]);
+const BDEF = { fmt: "scene", loc: "F1", car: "CIVIC", outfit: "W3", act: "", fin: "F1", size: "Z3", height: "H1", orient: "O1", expr: "E1", light: "auto", ratio: "3:4",
   place: false, product: false, carPhoto: false, outRef: false, hands: false, placeName: "", productName: "", customCar: "" };
 let S = Object.assign({}, BDEF);
 try { Object.assign(S, JSON.parse(localStorage.getItem("inaya-builder") || "{}") || {}); } catch (e) {}
