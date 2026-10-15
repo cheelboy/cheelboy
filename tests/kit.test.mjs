@@ -15,7 +15,7 @@ await page.goto(page_url);
 const failures = [];
 const check = (ok, msg) => { if (!ok) failures.push(msg); };
 
-const cards = await page.$$eval("article.card", els => els.map(e => ({
+const cards = await page.$$eval("article.card:has(pre)", els => els.map(e => ({
   code: e.querySelector(".code")?.textContent || "builder",
   text: e.querySelector("pre").textContent
 })));

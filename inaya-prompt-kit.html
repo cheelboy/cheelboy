@@ -92,6 +92,23 @@ h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: v
 .toggles label { display: flex; align-items: center; gap: 7px; font-size: 13.5px; }
 .count { font-size: 13.5px; margin: 0; padding: 10px 12px; background: var(--accent-soft); border-radius: 8px; }
 .count b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 70px), 1fr)); gap: 8px; }
+.slot { display: grid; gap: 4px; font-size: 12px; color: var(--muted); text-align: center; min-width: 0; }
+.slot .thumb { aspect-ratio: 1; border: 1px dashed var(--line); border-radius: 8px; background: var(--code-bg) center / cover no-repeat; display: grid; place-items: center; font-size: 11px; cursor: pointer; overflow: hidden; }
+.slot .thumb.has { border-style: solid; color: transparent; }
+.slot button { font-size: 11px; padding: 3px 6px; background: transparent; color: var(--muted); border: 1px solid var(--line); }
+.results { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px; }
+.results:empty { display: none; }
+.result { display: grid; gap: 6px; font-size: 12px; color: var(--muted); min-width: 0; }
+.result img { width: 100%; border-radius: 8px; border: 1px solid var(--line); display: block; }
+.result .row { display: flex; gap: 6px; flex-wrap: wrap; }
+.result a, .result select { font: inherit; font-size: 12px; color: var(--accent); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; background: var(--code-bg); text-decoration: none; max-width: 100%; }
+.status { font-size: 13px; color: var(--muted); margin: 0; min-height: 1.4em; }
+.status.err { color: #b3261e; }
+:root[data-theme="dark"] .status.err { color: #f2b8b5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .status.err { color: #f2b8b5; } }
+button.gen { border-color: var(--accent); color: var(--accent); }
+button:disabled { opacity: .55; cursor: progress; }
 footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) { button { transition: background-color .15s, border-color .15s, color .15s; } }
 </style>
@@ -108,6 +125,7 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
     <a href="#rules">Rules</a>
     <a href="#master">1 · Master</a>
     <a href="#refs">2 · References</a>
+    <a href="#studio">Generate</a>
     <a href="#builder">3 · Builder</a>
     <a href="#scenes">4 · Scenes</a>
     <a href="#reviews">5 · Studio gigs</a>
@@ -153,6 +171,30 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
     <div class="cards" data-group="refs"></div>
   </section>
 
+  <section id="studio">
+    <h2>Generate · Puter studio</h2>
+    <p class="sec-note">Make images right here with Nano Banana through Puter.js. You sign in to your own Puter account and usage counts against it: Puter gives a free allowance, then asks you to top up. Save her references in the slots once, and every Generate button in the kit attaches the right ones in the right order.</p>
+    <article class="card" id="studio-card">
+      <div class="actions"><button class="copy" type="button" id="pt-connect">Connect Puter</button></div>
+      <p class="status" id="pt-status" role="status">Not connected.</p>
+      <div class="fields">
+        <label class="field"><span>Model</span><select id="pt-model"></select></label>
+        <label class="field"><span>Size</span><select id="pt-size"><option value="1K">1K (cheapest)</option><option value="2K" selected>2K</option><option value="4K">4K</option></select></label>
+      </div>
+      <div class="toggles"><label class="chk"><input type="checkbox" id="pt-test"> Test mode: a free sample image, to check the setup</label></div>
+      <h4>Reference slots</h4>
+      <div class="slots" id="pt-slots"></div>
+      <h4>Quick start</h4>
+      <div class="actions">
+        <button class="more gen" type="button" data-quick="refA">1 · Ref A ×2</button>
+        <button class="more gen" type="button" data-quick="refs">2 · Ref B, C, D</button>
+        <button class="more gen" type="button" data-quick="social">3 · Social posts</button>
+      </div>
+      <label class="field"><span>Social posts to make (card codes)</span><input type="text" id="pt-social" value="S1 S2 S3 S4"></label>
+      <div class="results" id="pt-results"></div>
+    </article>
+  </section>
+
   <section id="builder">
     <h2>Phase 3 · Shot builder</h2>
     <p class="sec-note">Pick a format, then the place, car, outfit, action and camera. The builder writes the full prompt, numbers the images to attach, and counts how many different shots the format can make. Turn on a place or product photo to put her in a real studio with a real product.</p>
@@ -163,8 +205,9 @@ footer { margin-top: 36px; font-size: 13px; color: var(--muted); }
       <div class="fields" id="b-text"></div>
       <p class="attach">Attach, in this order: <strong id="b-attach"></strong></p>
       <div class="prompt-box" id="b-box"><pre class="prompt" id="b-out"></pre></div>
-      <div class="actions"><button class="copy" type="button" id="b-copy">Copy prompt</button><button class="more" type="button" id="b-more" aria-expanded="false">Show full</button><button class="more" type="button" id="b-rand">Surprise me</button></div>
+      <div class="actions"><button class="copy" type="button" id="b-copy">Copy prompt</button><button class="more" type="button" id="b-more" aria-expanded="false">Show full</button><button class="more" type="button" id="b-rand">Surprise me</button><button class="more gen" type="button" id="b-gen">Generate</button></div>
       <p class="count" id="b-count"></p>
+      <div class="results" id="b-results"></div>
     </article>
   </section>
 
@@ -517,8 +560,8 @@ P.forEach((p, i) => {
     '<p class="attach">Attach: <strong>' + esc(p.attach) + '</strong></p>' +
     (p.outfit ? '<label class="opt" for="o-' + id + '">Outfit <select id="o-' + id + '">' + opts + '</select></label>' : "") +
     '<div class="prompt-box"><pre class="prompt" id="t-' + id + '"></pre></div>' +
-    '<div class="actions"><button class="copy" type="button">Copy prompt</button><button class="more" type="button" aria-expanded="false">Show full</button></div>' +
-    (p.tip ? '<p class="tip">' + esc(p.tip) + '</p>' : "");
+    '<div class="actions"><button class="copy" type="button">Copy prompt</button><button class="more" type="button" aria-expanded="false">Show full</button><button class="more gen" type="button" data-card="' + esc(p.code) + '">Generate</button></div>' +
+    (p.tip ? '<p class="tip">' + esc(p.tip) + '</p>' : "") + '<div class="results"></div>';
   host.appendChild(el);
   const pre = el.querySelector("pre");
   const box = el.querySelector(".prompt-box");
@@ -835,6 +878,175 @@ function big(x) {
   more.addEventListener("click", () => { const open = box.classList.toggle("open"); more.textContent = open ? "Collapse" : "Show full"; more.setAttribute("aria-expanded", String(open)); });
   update();
 })();
+
+// ---------- Puter studio: generate images in the browser ----------
+// Puter.js runs Gemini image models with the viewer's own Puter account (user-pays).
+const PUTER_SRC = "https://cdn.jsdelivr.net/npm/@heyputer/puter.js@2.6.3/dist/puter.cjs";
+const SLOTS = [["A", "Ref A"], ["B", "Ref B"], ["C", "Ref C"], ["D", "Ref D"], ["E", "Ref E"], ["H", "Ref H"],
+  ["PLACE", "Place photo"], ["PRODUCT", "Product photo"], ["CAR", "Car photo"], ["OUTFIT", "Outfit ref"], ["EDIT", "Photo to edit"]];
+const SLOT_NAME = Object.fromEntries(SLOTS);
+// Images each card attaches, in order. A trailing "?" means optional.
+function cardSlots(code) {
+  const fixed = { "P1": [], "P1-edit": ["EDIT"], "Ref B": ["A"], "Ref C": ["A"], "Ref D": ["A"], "Ref E": ["A", "C"], "Ref H": ["A"], "Outfit ref": ["A", "C"],
+    "V5": ["A", "B", "C", "PRODUCT"], "R1": ["A", "B", "C", "PRODUCT"], "R4": ["A", "B", "C", "H?"], "R5": ["A", "B", "C", "PLACE", "PRODUCT"],
+    "BG1": ["A", "EDIT", "PLACE"], "PR1": ["A", "EDIT", "PRODUCT"], "F1": ["A", "EDIT"], "F2": ["A", "EDIT"], "F6": ["A", "EDIT"], "F8": ["EDIT", "PRODUCT"] };
+  if (fixed[code]) return fixed[code];
+  if (/^F\d$/.test(code)) return ["EDIT"];
+  return ["A", "B", "C"];
+}
+const SUGGEST = { "P1": "A", "Ref B": "B", "Ref C": "C", "Ref D": "D", "Ref E": "E", "Ref H": "H", "Outfit ref": "OUTFIT" };
+const BUILDER_SLOT = n => n === "Ref A" ? "A" : n === "Ref B" ? "B" : n === "Ref C" ? "C" : n === "Ref H" ? "H" :
+  n === "place photo" ? "PLACE" : n === "product photo" ? "PRODUCT" : n === "car photo" ? "CAR" : "OUTFIT";
+
+// Slot images live in this browser's IndexedDB; the page still works if storage is unavailable.
+const slotImg = {};
+const idb = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => { const r = indexedDB.open("inaya-studio", 1); r.onupgradeneeded = () => r.result.createObjectStore("slots"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+  const tx = (mode, fn) => open().then(db => new Promise((res, rej) => { const t = db.transaction("slots", mode); const q = fn(t.objectStore("slots")); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }));
+  return {
+    all: () => open().then(db => new Promise(res => {
+      const out = {}; const c = db.transaction("slots").objectStore("slots").openCursor();
+      c.onsuccess = () => { const cur = c.result; if (cur) { out[cur.key] = cur.value; cur.continue(); } else res(out); }; c.onerror = () => res(out);
+    })),
+    set: (k, v) => tx("readwrite", st => st.put(v, k)),
+    del: k => tx("readwrite", st => st.delete(k))
+  };
+})();
+
+const ptStatus = document.getElementById("pt-status");
+const say = (msg, err) => { ptStatus.textContent = msg; ptStatus.classList.toggle("err", !!err); };
+const errText = e => (e && (e.message || (e.error && e.error.message) || e.code)) || String(e);
+
+let puterP = null;
+function loadPuter() {
+  if (window.puter) return Promise.resolve(window.puter);
+  return puterP || (puterP = fetch(PUTER_SRC).then(r => { if (!r.ok) throw new Error("Puter.js download failed (" + r.status + ")"); return r.text(); }).then(code => {
+    const sc = document.createElement("script"); sc.textContent = code; document.head.appendChild(sc);
+    if (!window.puter) throw new Error("Puter.js loaded but didn't start");
+    return window.puter;
+  }).catch(e => { puterP = null; throw new Error(errText(e) + ". If this keeps happening here, open inaya-prompt-kit.html from the repo directly in Chrome."); }));
+}
+
+const MODELS = [["gemini-3-pro-image-preview", "Nano Banana Pro"], ["gemini-3.1-flash-image", "Nano Banana 2"], ["gemini-2.5-flash-image", "Nano Banana"]];
+const modelSel = document.getElementById("pt-model"), sizeSel = document.getElementById("pt-size"), testChk = document.getElementById("pt-test");
+function fillModels(list) {
+  const keep = modelSel.value || (() => { try { return localStorage.getItem("inaya-model"); } catch (e) { return null; } })();
+  modelSel.innerHTML = list.map(([id, label]) => '<option value="' + esc(id) + '">' + esc(label ? label + " · " + id : id) + "</option>").join("");
+  if (keep && list.some(m => m[0] === keep)) modelSel.value = keep;
+}
+fillModels(MODELS);
+modelSel.addEventListener("change", () => { try { localStorage.setItem("inaya-model", modelSel.value); } catch (e) {} });
+
+async function refreshUser(puter) {
+  try {
+    if (puter.auth.isSignedIn()) { const u = await puter.auth.getUser(); say("Connected as " + (u && u.username ? u.username : "your Puter account") + "."); return true; }
+  } catch (e) {}
+  say("Puter is loaded. Tap Sign in to Puter."); return false;
+}
+async function loadModelList(puter) {
+  try {
+    const list = await puter.ai.listModels("gemini");
+    const img = (list || []).map(m => String(m.id || m.name || "")).filter(id => /image/i.test(id));
+    if (img.length) fillModels(img.map(id => [id, (MODELS.find(m => m[0] === id) || [])[1] || ""]));
+  } catch (e) {}
+}
+const connectBtn = document.getElementById("pt-connect");
+connectBtn.addEventListener("click", async () => {
+  if (window.puter && connectBtn.dataset.state === "signin") {
+    try { await window.puter.auth.signIn(); } catch (e) { say("Sign-in didn't finish: " + errText(e), true); return; }
+    if (await refreshUser(window.puter)) { connectBtn.textContent = "Connected"; connectBtn.dataset.state = "ok"; }
+    return;
+  }
+  connectBtn.disabled = true; say("Loading Puter…");
+  try {
+    const puter = await loadPuter();
+    loadModelList(puter);
+    if (await refreshUser(puter)) { connectBtn.textContent = "Connected"; connectBtn.dataset.state = "ok"; }
+    else { connectBtn.textContent = "Sign in to Puter"; connectBtn.dataset.state = "signin"; }
+  } catch (e) { say(errText(e), true); }
+  connectBtn.disabled = false;
+});
+
+// Slots UI
+const slotsEl = document.getElementById("pt-slots");
+function renderSlots() {
+  slotsEl.innerHTML = "";
+  SLOTS.forEach(([k, label]) => {
+    const d = document.createElement("div"); d.className = "slot";
+    const has = !!slotImg[k];
+    d.innerHTML = '<label class="thumb' + (has ? " has" : "") + '" title="Upload ' + esc(label) + '">' + (has ? "" : "+ Add") + '<input type="file" accept="image/*" hidden></label><span>' + esc(label) + "</span>" + (has ? '<button type="button">Clear</button>' : "");
+    if (has) d.querySelector(".thumb").style.backgroundImage = "url(" + slotImg[k] + ")";
+    d.querySelector("input").addEventListener("change", e => { const f = e.target.files[0]; if (f) fileToData(f).then(u => setSlot(k, u)); });
+    const clr = d.querySelector("button"); if (clr) clr.addEventListener("click", () => setSlot(k, null));
+    slotsEl.appendChild(d);
+  });
+}
+const fileToData = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = () => rej(r.error); r.readAsDataURL(f); });
+function setSlot(k, url) {
+  if (url) slotImg[k] = url; else delete slotImg[k];
+  renderSlots();
+  (url ? idb.set(k, url) : idb.del(k)).catch(() => {});
+}
+renderSlots();
+try { idb.all().then(all => { Object.assign(slotImg, all); renderSlots(); }).catch(() => {}); } catch (e) {}
+
+// Generation
+const toRatio = r => { const m = /^(\d+):(\d+)/.exec(r || ""); return m ? { w: +m[1], h: +m[2] } : undefined; };
+async function generateImage(prompt, slots, ratio) {
+  const missing = slots.filter(k => !k.endsWith("?") && !slotImg[k]);
+  if (missing.length) throw new Error("Add " + missing.map(k => SLOT_NAME[k]).join(", ") + " in the reference slots first.");
+  const images = slots.map(k => slotImg[k.replace("?", "")]).filter(Boolean);
+  const puter = await loadPuter();
+  const opts = { prompt: prompt, provider: "gemini", model: modelSel.value, quality: sizeSel.value };
+  const rt = toRatio(ratio); if (rt) opts.ratio = rt;
+  if (images.length) opts.input_images = images;
+  const img = await puter.ai.txt2img(opts, testChk.checked);
+  const src = img && (img.src || String(img));
+  if (!src) throw new Error("No image came back.");
+  if (src.startsWith("data:")) return src;
+  const blob = await (await fetch(src)).blob();
+  return fileToData(blob);
+}
+function addResult(host, url, label, suggest) {
+  const d = document.createElement("div"); d.className = "result";
+  const name = "inaya_" + label.replace(/\W+/g, "-") + "_" + new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-") + ".png";
+  d.innerHTML = '<img alt="' + esc(label) + ' result"><span>' + esc(label) + '</span><div class="row"><a download="' + name + '">Download</a><select aria-label="Save to a reference slot"><option value="">Save as…</option>' +
+    SLOTS.map(([k, l]) => '<option value="' + k + '"' + (k === suggest ? " selected" : "") + ">" + esc(l) + "</option>").join("") + "</select></div>";
+  d.querySelector("img").src = url; d.querySelector("a").href = url;
+  const sel = d.querySelector("select");
+  if (suggest) { const b = document.createElement("button"); b.type = "button"; b.className = "mini"; b.textContent = "Use as " + SLOT_NAME[suggest]; b.addEventListener("click", () => { setSlot(suggest, url); b.textContent = "Saved"; b.classList.add("done"); }); d.querySelector(".row").appendChild(b); sel.value = ""; }
+  sel.addEventListener("change", () => { if (sel.value) { setSlot(sel.value, url); say("Saved to " + SLOT_NAME[sel.value] + "."); sel.value = ""; } });
+  host.prepend(d);
+}
+async function runJob(btn, host, job) {
+  const label = btn.textContent; btn.disabled = true; btn.textContent = "Generating…";
+  say("Generating " + job.label + "… this can take 10–60 seconds.");
+  try { const url = await generateImage(job.prompt, job.slots, job.ratio); addResult(host, url, job.label, job.suggest); say("Done: " + job.label + "."); }
+  catch (e) { say(job.label + ": " + errText(e), true); }
+  btn.disabled = false; btn.textContent = label;
+}
+const cardJob = code => {
+  const card = document.querySelector('[data-card="' + code + '"]').closest(".card");
+  const p = P.find(x => x.code === code);
+  return { card: card, job: { prompt: card.querySelector("pre").textContent, slots: cardSlots(code), ratio: p.ratio, label: code, suggest: SUGGEST[code] } };
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("button[data-card]"); if (!b) return;
+  const { card, job } = cardJob(b.dataset.card);
+  runJob(b, card.querySelector(".results"), job);
+});
+document.getElementById("b-gen").addEventListener("click", e => {
+  const r = assemble(S);
+  runJob(e.currentTarget, document.getElementById("b-results"), { prompt: r.text, slots: r.imgs.map(BUILDER_SLOT), ratio: S.ratio, label: "Builder · " + FMT[S.fmt].label });
+});
+const ptResults = document.getElementById("pt-results");
+document.querySelectorAll("[data-quick]").forEach(b => b.addEventListener("click", async () => {
+  const q = b.dataset.quick;
+  const codes = q === "refA" ? ["P1", "P1"] : q === "refs" ? ["Ref B", "Ref C", "Ref D"] : document.getElementById("pt-social").value.split(/[\s,]+/).filter(c => P.some(p => p.code === c));
+  if (!codes.length) { say("No matching card codes. Try S1 S2 S3 S4.", true); return; }
+  for (const c of codes) { const { job } = cardJob(c); await runJob(b, ptResults, job); }
+}));
 
 // Modules reference
 const groups = [

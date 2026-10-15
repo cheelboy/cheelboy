@@ -4,7 +4,7 @@
   "description": "AI character creation kit for Nano Banana Pro",
   "type": "module",
   "scripts": {
-    "test": "node tests/kit.test.mjs",
+    "test": "node tests/kit.test.mjs && node tests/studio.test.mjs",
     "generate": "node tools/generate.mjs"
   },
   "devDependencies": {

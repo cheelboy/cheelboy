@@ -41,7 +41,24 @@ Nano Banana Pro (Gemini 3 Pro Image) and Nano Banana 2. The first character is
 7. **Fixes.** F1–F9, covering face drift, age, logos, mechanic look, body, leaked
    reference clothes, the mole, wrong product labels and a pasted-on look.
 
-## Generating images automatically
+## Generating images in the browser (Puter)
+
+The kit's **Generate** section runs Nano Banana through [Puter.js](https://developer.puter.com/tutorials/free-unlimited-nano-banana-api/)
+in your browser. No API key is needed, but usage counts against your own Puter account:
+Puter gives a free allowance, then asks you to top up.
+
+1. Tap **Connect Puter**, then **Sign in to Puter**.
+2. Optional: turn on **Test mode** for one free sample image to check the setup.
+3. Use the quick-start buttons in order:
+   - **Ref A ×2:** pick the best face with **Use as Ref A**.
+   - **Ref B, C, D:** save each one to its slot.
+   - **Social posts:** S1–S4 by default.
+4. Every card and the builder also has a **Generate** button. It attaches the saved
+   reference slots in the right order, and tells you if one is missing.
+
+Reference slots are saved in that browser only, so download your keepers.
+
+## Generating images from the command line (Gemini API key)
 
 `tools/generate.mjs` sends the kit's prompts to Google's Gemini image models (Nano Banana)
 and saves the results to `generated/`. It needs a Gemini API key from Google AI Studio in
